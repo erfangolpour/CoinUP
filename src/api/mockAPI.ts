@@ -100,28 +100,44 @@ const generateCoinImage = (coinId: string): string => {
   // Use proper CoinGecko image URLs with correct coin IDs
   const imageMap: { [key: string]: string } = {
     bitcoin: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
-    ethereum: "https://assets.coingecko.com/coins/images/279/large/ethereum.png",
+    ethereum:
+      "https://assets.coingecko.com/coins/images/279/large/ethereum.png",
     tether: "https://assets.coingecko.com/coins/images/325/large/Tether.png",
-    "usd-coin": "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png",
-    binancecoin: "https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png",
-    ripple: "https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png",
+    "usd-coin":
+      "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png",
+    binancecoin:
+      "https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png",
+    ripple:
+      "https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png",
     solana: "https://assets.coingecko.com/coins/images/4128/large/solana.png",
     cardano: "https://assets.coingecko.com/coins/images/975/large/cardano.png",
     dogecoin: "https://assets.coingecko.com/coins/images/5/large/dogecoin.png",
-    "shiba-inu": "https://assets.coingecko.com/coins/images/11939/large/shiba.png",
-    polkadot: "https://assets.coingecko.com/coins/images/12171/large/polkadot.png",
+    "shiba-inu":
+      "https://assets.coingecko.com/coins/images/11939/large/shiba.png",
+    polkadot:
+      "https://assets.coingecko.com/coins/images/12171/large/polkadot.png",
     tron: "https://assets.coingecko.com/coins/images/1094/large/tron-logo.png",
-    "avalanche-2": "https://assets.coingecko.com/coins/images/12559/large/Avalanche_Circle_RedWhite_Trans.png",
-    chainlink: "https://assets.coingecko.com/coins/images/877/large/chainlink-new-logo.png",
-    "matic-network": "https://assets.coingecko.com/coins/images/4713/large/matic-token-icon.png",
+    "avalanche-2":
+      "https://assets.coingecko.com/coins/images/12559/large/Avalanche_Circle_RedWhite_Trans.png",
+    chainlink:
+      "https://assets.coingecko.com/coins/images/877/large/chainlink-new-logo.png",
+    "matic-network":
+      "https://assets.coingecko.com/coins/images/4713/large/matic-token-icon.png",
     litecoin: "https://assets.coingecko.com/coins/images/2/large/litecoin.png",
-    polygon: "https://assets.coingecko.com/coins/images/4713/large/matic-token-icon.png",
-    "wrapped-bitcoin": "https://assets.coingecko.com/coins/images/7598/large/wrapped_bitcoin_wbtc.png",
-    uniswap: "https://assets.coingecko.com/coins/images/12504/large/uniswap-uni.png",
-    "ethereum-classic": "https://assets.coingecko.com/coins/images/453/large/ethereum-classic-logo.png",
+    polygon:
+      "https://assets.coingecko.com/coins/images/4713/large/matic-token-icon.png",
+    "wrapped-bitcoin":
+      "https://assets.coingecko.com/coins/images/7598/large/wrapped_bitcoin_wbtc.png",
+    uniswap:
+      "https://assets.coingecko.com/coins/images/12504/large/uniswap-uni.png",
+    "ethereum-classic":
+      "https://assets.coingecko.com/coins/images/453/large/ethereum-classic-logo.png",
   };
-  
-  return imageMap[coinId] || `https://assets.coingecko.com/coins/images/1/large/bitcoin.png`;
+
+  return (
+    imageMap[coinId] ||
+    `https://assets.coingecko.com/coins/images/1/large/bitcoin.png`
+  );
 };
 
 const generateMockCoin = (id: string, rank: number): Coin => {
@@ -179,14 +195,11 @@ const generateMockCoin = (id: string, rank: number): Coin => {
     atl: currentPrice * randomBetween(0.01, 0.9),
     atl_change_percentage: randomPercentage(50, 10000),
     atl_date: generateRandomDate(randomInt(100, 3000)),
-    roi:
-      Math.random() > 0.5
-        ? {
-            times: randomBetween(0.1, 100),
-            currency: "usd",
-            percentage: randomPercentage(-50, 5000),
-          }
-        : null,
+    roi: {
+      times: randomBetween(0.1, 100),
+      currency: "usd",
+      percentage: randomPercentage(-50, 5000),
+    },
     last_updated: new Date().toISOString(),
   };
 };

@@ -1,8 +1,9 @@
 import axios from "axios";
 import type { Coin, CoinDetail, ChartData } from "../types/crypto";
+import { ENV_CONFIG } from "../config/env";
 
-const API_KEY = import.meta.env.VITE_COINGECKO_API_KEY;
-const BASE_URL = import.meta.env.VITE_COINGECKO_BASE_URL;
+const API_KEY = ENV_CONFIG.COINGECKO_API_KEY;
+const BASE_URL = ENV_CONFIG.COINGECKO_BASE_URL;
 
 const api = axios.create({
   baseURL: BASE_URL,

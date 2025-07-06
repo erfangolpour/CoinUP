@@ -1,89 +1,89 @@
-import { useState, useEffect, useRef } from "react";
 import { formatNumber } from "@utils/formatters";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface AnimatedNumberProps {
-  value: number | undefined | null;
-  prefix?: string;
-  suffix?: string;
-  decimals?: number;
-  className?: string;
-  simplified?: boolean;
+	value: number | undefined | null;
+	prefix?: string;
+	suffix?: string;
+	decimals?: number;
+	className?: string;
+	simplified?: boolean;
 }
 
 const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
-  value,
-  prefix = "",
-  suffix = "",
-  decimals = 2,
-  className = "",
-  simplified = true,
+	value,
+	prefix = "",
+	suffix = "",
+	decimals = 2,
+	className = "",
+	simplified = true,
 }) => {
-  if (value === undefined || value === null || isNaN(value)) {
-    return <span className={className}>N/A</span>;
-  }
+	if (value === undefined || value === null || isNaN(value)) {
+		return <span className={className}>N/A</span>;
+	}
 
-  const [displayValue, setDisplayValue] = useState(value);
-  const prevValueRef = useRef(value);
-  const animationRef = useRef<number | null>(null);
+	const [displayValue, setDisplayValue] = useState(value);
+	const prevValueRef = useRef(value);
+	const animationRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    const startValue = prevValueRef.current;
-    const endValue = value;
+	const cancelAnimation = useCallback(() => {
+		if (animationRef.current) {
+			cancelAnimationFrame(animationRef.current);
+			animationRef.current = null;
+		}
+	}, []);
 
-    // Only animate if the change is significant (more than 0.01% change)
-    const percentageChange = Math.abs((endValue - startValue) / startValue);
+	useEffect(() => {
+		const startValue = prevValueRef.current;
+		const endValue = value;
 
-    if (percentageChange < 0.001) {
-      setDisplayValue(endValue);
-      prevValueRef.current = endValue;
-      return;
-    }
+		// Only animate if the change is significant (more than 0.1% change)
+		const percentageChange = Math.abs((endValue - startValue) / startValue);
 
-    // Cancel any existing animation
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-    }
+		if (percentageChange < 0.001) {
+			setDisplayValue(endValue);
+			prevValueRef.current = endValue;
+			return;
+		}
 
-    const duration = 800; // Slightly longer for smoother animation
-    const startTime = Date.now();
+		// Cancel any existing animation
+		cancelAnimation();
 
-    const updateValue = () => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1);
+		const duration = 600; // Reduced duration for better performance
+		const startTime = performance.now();
 
-      // Smoother easing function (ease-out-cubic)
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-      const currentValue = startValue + (endValue - startValue) * easeOut;
+		const updateValue = (currentTime: number) => {
+			const elapsed = currentTime - startTime;
+			const progress = Math.min(elapsed / duration, 1);
 
-      setDisplayValue(currentValue);
+			// Smoother easing function (ease-out-cubic)
+			const easeOut = 1 - Math.pow(1 - progress, 3);
+			const currentValue = startValue + (endValue - startValue) * easeOut;
 
-      if (progress < 1) {
-        animationRef.current = requestAnimationFrame(updateValue);
-      } else {
-        animationRef.current = null;
-        prevValueRef.current = endValue;
-      }
-    };
+			setDisplayValue(currentValue);
 
-    animationRef.current = requestAnimationFrame(updateValue);
+			if (progress < 1) {
+				animationRef.current = requestAnimationFrame(updateValue);
+			} else {
+				animationRef.current = null;
+				prevValueRef.current = endValue;
+			}
+		};
 
-    // Cleanup function
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-        animationRef.current = null;
-      }
-    };
-  }, [value]);
+		animationRef.current = requestAnimationFrame(updateValue);
 
-  const formattedValue = formatNumber(
-    displayValue,
-    prefix,
-    suffix,
-    decimals,
-    simplified
-  );
-  return <span className={className}>{formattedValue}</span>;
+		// Cleanup function
+		return cancelAnimation;
+	}, [value, cancelAnimation]);
+
+	const formattedValue = formatNumber(
+		displayValue,
+		prefix,
+		suffix,
+		decimals,
+		simplified,
+	);
+	return <span className={className}>{formattedValue}</span>;
 };
 
 export default AnimatedNumber;

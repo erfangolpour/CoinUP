@@ -2,51 +2,56 @@
 @import "tailwindcss";
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+/* Performance optimizations */
+*,
+*::before,
+*::after {
+	/* Enable hardware acceleration for better performance */
+	transform: translateZ(0);
+	backface-visibility: hidden;
 }
 
 /* Focus styles */
 *:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 3px;
+	outline: 2px solid #3b82f6;
+	outline-offset: 3px;
 }
 
 body {
-  font-family: "Inter", sans-serif;
-  @apply text-slate-200;
-  @apply bg-slate-900;
-  @apply min-h-[100vh];
+	font-family: "Inter", sans-serif;
+	@apply text-slate-200;
+	@apply bg-slate-900;
+	@apply min-h-[100vh];
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	scroll-behavior: smooth;
 }
 
 .glass-effect {
-  @apply bg-white/5;
-  @apply border border-slate-700;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	@apply bg-white/5;
+	@apply border border-slate-700;
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	/* Enable GPU acceleration */
+	will-change: transform;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+	width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+	background: #1e293b;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #475569;
-  border-radius: 4px;
+	background: #475569;
+	border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
-}
-
-/* Accessibility support */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+	background: #64748b;
 }
