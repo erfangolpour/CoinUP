@@ -65,7 +65,7 @@ export const CoinCard: React.FC<CoinCardProps> = memo(
           layout: { duration: 0.3, ease: "easeInOut" },
           opacity: { duration: 0.2 },
           scale: { duration: 0.1 },
-          y: { duration: 0.1 }
+          y: { duration: 0.1 },
         }}
         className={cn(
           "glass-effect relative p-6 rounded-xl border",
@@ -138,7 +138,7 @@ export const CoinCard: React.FC<CoinCardProps> = memo(
               value={Math.abs(coin.price_change_percentage_24h)}
               suffix="%"
             />
-            <span className="ml-1">24h</span>
+            <span className="ml-1">(24h)</span>
           </div>
         </div>
 

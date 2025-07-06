@@ -66,7 +66,6 @@ export const fetchCoins = async (
         ids: POPULAR_COINS.join(","),
         order,
         price_change_percentage: "24h",
-        precision: 3,
       },
     });
     return response.data;

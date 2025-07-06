@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { formatNumber } from "@utils/formatters";
 
 interface AnimatedNumberProps {
-  value: number;
+  value: number | undefined | null;
   prefix?: string;
   suffix?: string;
   decimals?: number;
@@ -18,6 +18,10 @@ const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
   className = "",
   simplified = true,
 }) => {
+  if (value === undefined || value === null || isNaN(value)) {
+    return <span className={className}>N/A</span>;
+  }
+
   const [displayValue, setDisplayValue] = useState(value);
   const prevValueRef = useRef(value);
   const animationRef = useRef<number | null>(null);
@@ -70,7 +74,7 @@ const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
         animationRef.current = null;
       }
     };
-  }, [value]); // Only depend on value, not displayValue
+  }, [value]);
 
   const formattedValue = formatNumber(
     displayValue,

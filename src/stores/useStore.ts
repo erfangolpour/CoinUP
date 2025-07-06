@@ -13,6 +13,7 @@ import {
   fetchMockCoinDetail,
   fetchMockChartData,
 } from "@api/mockAPI";
+import { fetchCoins, fetchCoinDetail, fetchChartData } from "@api/API";
 
 interface StoreActions {
   // Coins

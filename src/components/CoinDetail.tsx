@@ -40,7 +40,7 @@ export const CoinDetail: React.FC = () => {
     detailLastUpdated,
   } = useStore();
 
-  const REFRESH_INTERVAL = 30000; // 30 seconds
+  const REFRESH_INTERVAL = Number(import.meta.env.VITE_REFRESH_INTERVAL);
 
   const chartPeriods = [
     { value: 7, label: "7D" },
@@ -90,13 +90,11 @@ export const CoinDetail: React.FC = () => {
   if (!coinDetail || !selectedCoin) return null;
 
   const isFavorite = favorites.includes(selectedCoin);
-  const isPositive = coinDetail.price_change_percentage_24h > 0;
-  const currentPrice =
-    coinDetail.current_price || coinDetail.market_data?.current_price?.usd || 0;
+  const isPositive =
+    (coinDetail.market_data?.price_change_percentage_24h || 0) > 0;
+  const currentPrice = coinDetail.market_data?.current_price?.usd || 0;
   const priceChange24h =
-    coinDetail.price_change_percentage_24h ||
-    coinDetail.market_data?.price_change_percentage_24h ||
-    0;
+    coinDetail.market_data?.price_change_percentage_24h || 0;
 
   return (
     <motion.div
@@ -118,7 +116,7 @@ export const CoinDetail: React.FC = () => {
           <div className="flex items-center space-x-4 lg:space-x-6">
             <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full overflow-hidden glass-effect flex items-center justify-center">
               <img
-                src={coinDetail.image}
+                src={coinDetail.image?.large}
                 alt={coinDetail.name}
                 className="w-12 h-12 lg:w-16 lg:h-16 object-cover"
               />
@@ -146,7 +144,7 @@ export const CoinDetail: React.FC = () => {
           <Clickable
             onClick={handleRefresh}
             disabled={isLoadingCoinDetail}
-            className="p-3 lg:p-4 glass-effect hover:bg-slate-600/20 rounded-xl text-slate-300 hover:text-white"
+            className="hidden md:block p-3 lg:p-4 glass-effect hover:bg-slate-600/20 rounded-xl text-slate-300 hover:text-white"
           >
             <RefreshCw
               className={cn(
@@ -218,7 +216,10 @@ export const CoinDetail: React.FC = () => {
               24h High
             </div>
             <div className="font-semibold text-lg lg:text-xl">
-              <AnimatedNumber value={coinDetail.high_24h} prefix="$" />
+              <AnimatedNumber
+                value={coinDetail.market_data?.high_24h?.usd}
+                prefix="$"
+              />
             </div>
           </div>
           <div className="text-center p-4 lg:p-6 glass-effect rounded-xl">
@@ -226,7 +227,10 @@ export const CoinDetail: React.FC = () => {
               24h Low
             </div>
             <div className="font-semibold text-lg lg:text-xl">
-              <AnimatedNumber value={coinDetail.low_24h} prefix="$" />
+              <AnimatedNumber
+                value={coinDetail.market_data?.low_24h?.usd}
+                prefix="$"
+              />
             </div>
           </div>
           <div className="text-center p-4 lg:p-6 glass-effect rounded-xl">
@@ -234,7 +238,10 @@ export const CoinDetail: React.FC = () => {
               Market Cap
             </div>
             <div className="font-semibold text-lg lg:text-xl">
-              <AnimatedNumber value={coinDetail.market_cap} prefix="$" />
+              <AnimatedNumber
+                value={coinDetail.market_data?.market_cap?.usd}
+                prefix="$"
+              />
             </div>
           </div>
           <div className="text-center p-4 lg:p-6 glass-effect rounded-xl">
@@ -242,7 +249,10 @@ export const CoinDetail: React.FC = () => {
               Volume
             </div>
             <div className="font-semibold text-lg lg:text-xl">
-              <AnimatedNumber value={coinDetail.total_volume} prefix="$" />
+              <AnimatedNumber
+                value={coinDetail.market_data?.total_volume?.usd}
+                prefix="$"
+              />
             </div>
           </div>
         </div>
@@ -305,14 +315,17 @@ export const CoinDetail: React.FC = () => {
             <div className="flex justify-between">
               <span className="text-slate-400">Market Cap</span>
               <span>
-                <AnimatedNumber value={coinDetail.market_cap} prefix="$" />
+                <AnimatedNumber
+                  value={coinDetail.market_data?.market_cap?.usd}
+                  prefix="$"
+                />
               </span>
             </div>
             <div className="flex justify-between">
               <span className="text-slate-400">Fully Diluted Valuation</span>
               <span>
                 <AnimatedNumber
-                  value={coinDetail.fully_diluted_valuation}
+                  value={coinDetail.market_data?.fully_diluted_valuation?.usd}
                   prefix="$"
                 />
               </span>
@@ -321,7 +334,7 @@ export const CoinDetail: React.FC = () => {
               <span className="text-slate-400">Circulating Supply</span>
               <span>
                 <AnimatedNumber
-                  value={coinDetail.circulating_supply}
+                  value={coinDetail.market_data?.circulating_supply || 0}
                   prefix="$"
                 />
               </span>
@@ -329,13 +342,19 @@ export const CoinDetail: React.FC = () => {
             <div className="flex justify-between">
               <span className="text-slate-400">Total Supply</span>
               <span>
-                <AnimatedNumber value={coinDetail.total_supply} prefix="$" />
+                <AnimatedNumber
+                  value={coinDetail.market_data?.total_supply}
+                  prefix="$"
+                />
               </span>
             </div>
             <div className="flex justify-between">
               <span className="text-slate-400">Max Supply</span>
               <span>
-                <AnimatedNumber value={coinDetail.max_supply} prefix="$" />
+                <AnimatedNumber
+                  value={coinDetail.market_data?.max_supply}
+                  prefix="$"
+                />
               </span>
             </div>
           </div>
@@ -352,25 +371,29 @@ export const CoinDetail: React.FC = () => {
               <div className="flex flex-col">
                 <span>All-Time High</span>
                 <span className="font-medium text-slate-400">
-                  {coinDetail.ath_date
-                    ? formatDate(coinDetail.ath_date)
+                  {coinDetail.market_data?.ath_date?.usd
+                    ? formatDate(coinDetail.market_data?.ath_date?.usd)
                     : "N/A"}
                 </span>
               </div>
               <div className="text-right">
                 <div>
-                  <AnimatedNumber value={coinDetail.ath} prefix="$" />
+                  <AnimatedNumber
+                    value={coinDetail.market_data?.ath?.usd}
+                    prefix="$"
+                  />
                 </div>
                 <div
                   className={cn(
                     "text-sm",
-                    (coinDetail.ath_change_percentage || 0) > 0
+                    (coinDetail.market_data?.ath_change_percentage?.usd || 0) >
+                      0
                       ? "text-green-400"
                       : "text-red-400"
                   )}
                 >
                   <AnimatedNumber
-                    value={coinDetail.ath_change_percentage || 0}
+                    value={coinDetail.market_data?.ath_change_percentage?.usd}
                     suffix="%"
                     decimals={1}
                     simplified={false}
@@ -382,23 +405,27 @@ export const CoinDetail: React.FC = () => {
               <div className="flex flex-col">
                 <span>All-Time Low</span>
                 <span className="text-slate-400">
-                  {formatDate(coinDetail.atl_date)}
+                  {formatDate(coinDetail.market_data?.atl_date?.usd || "")}
                 </span>
               </div>
               <div className="text-right">
                 <div>
-                  <AnimatedNumber value={coinDetail.atl} prefix="$" />
+                  <AnimatedNumber
+                    value={coinDetail.market_data?.atl?.usd}
+                    prefix="$"
+                  />
                 </div>
                 <div
                   className={cn(
                     "text-sm",
-                    (coinDetail.atl_change_percentage || 0) > 0
+                    (coinDetail.market_data?.atl_change_percentage?.usd || 0) >
+                      0
                       ? "text-green-400"
                       : "text-red-400"
                   )}
                 >
                   <AnimatedNumber
-                    value={coinDetail.atl_change_percentage || 0}
+                    value={coinDetail.market_data?.atl_change_percentage?.usd}
                     suffix="%"
                     decimals={1}
                     simplified={false}
@@ -415,7 +442,7 @@ export const CoinDetail: React.FC = () => {
       </div>
 
       {/* ROI Section */}
-      {coinDetail.roi && (
+      {coinDetail.market_data?.roi && (
         <div className="glass-effect rounded-xl p-6 lg:p-8 backdrop-blur-sm">
           <h3 className="text-lg lg:text-xl font-semibold mb-4 lg:mb-6 flex items-center">
             <DollarSign className="w-5 h-5 lg:w-6 lg:h-6 mr-2" />
@@ -424,7 +451,10 @@ export const CoinDetail: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
             <div className="text-center p-4 lg:p-6 glass-effect rounded-xl">
               <div className="text-2xl lg:text-3xl font-bold text-green-400">
-                <AnimatedNumber value={coinDetail.roi.times} suffix="x" />
+                <AnimatedNumber
+                  value={coinDetail.market_data?.roi?.times}
+                  suffix="x"
+                />
               </div>
               <div className="text-sm lg:text-base text-slate-400">
                 ROI Multiple
@@ -433,7 +463,7 @@ export const CoinDetail: React.FC = () => {
             <div className="text-center p-4 lg:p-6 glass-effect rounded-xl">
               <div className="text-2xl lg:text-3xl font-bold text-green-400">
                 <AnimatedNumber
-                  value={coinDetail.roi.percentage}
+                  value={coinDetail.market_data?.roi?.percentage}
                   suffix="%"
                   decimals={1}
                 />
@@ -444,7 +474,7 @@ export const CoinDetail: React.FC = () => {
             </div>
             <div className="text-center p-4 lg:p-6 glass-effect rounded-xl">
               <div className="text-2xl lg:text-3xl font-bold text-white">
-                {coinDetail.roi.currency?.toUpperCase()}
+                {coinDetail.market_data?.roi?.currency?.toUpperCase()}
               </div>
               <div className="text-sm lg:text-base text-slate-400">
                 Base Currency

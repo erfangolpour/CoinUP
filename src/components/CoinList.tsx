@@ -29,7 +29,8 @@ export const CoinList: React.FC = () => {
     listLastUpdated,
   } = useStore();
 
-  const REFRESH_INTERVAL = 30000; // 30 seconds
+  const REFRESH_INTERVAL = Number(import.meta.env.VITE_REFRESH_INTERVAL);
+
   const filteredCoins = getFilteredCoins();
   const [showFilters, setShowFilters] = useState(false);
 
@@ -138,7 +139,7 @@ export const CoinList: React.FC = () => {
                 <Clickable
                   onClick={() => setSortOrder("desc")}
                   className={cn(
-                    "flex items-center space-x-2 px-4 py-2 lg:px-6 lg:py-3 rounded-xl text-sm lg:text-base font-medium",
+                    "grow flex items-center space-x-2 px-4 py-2 lg:px-6 lg:py-3 rounded-xl text-xs lg:text-base font-medium",
                     sortOrder === "desc"
                       ? "bg-blue-600 shadow-lg shadow-blue-500/25"
                       : "glass-effect text-slate-300 hover:bg-slate-600/20 hover:text-white"
@@ -150,7 +151,7 @@ export const CoinList: React.FC = () => {
                 <Clickable
                   onClick={() => setSortOrder("asc")}
                   className={cn(
-                    "flex items-center space-x-2 px-4 py-2 lg:px-6 lg:py-3 rounded-xl text-sm lg:text-base font-medium",
+                    "grow flex items-center space-x-2 px-4 py-2 lg:px-6 lg:py-3 rounded-xl text-xs lg:text-base font-medium",
                     sortOrder === "asc"
                       ? "bg-blue-600 shadow-lg shadow-blue-500/25"
                       : "glass-effect text-slate-300 hover:bg-slate-600/20 hover:text-white"

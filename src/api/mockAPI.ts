@@ -203,7 +203,16 @@ const generateMockCoinDetail = (coinId: string): CoinDetail => {
   ];
 
   return {
-    ...baseCoin,
+    id: baseCoin.id,
+    symbol: baseCoin.symbol,
+    name: baseCoin.name,
+    market_cap_rank: baseCoin.market_cap_rank,
+    last_updated: baseCoin.last_updated,
+    image: {
+      thumb: baseCoin.image,
+      small: baseCoin.image,
+      large: baseCoin.image,
+    },
     description: {
       en: descriptions[randomInt(0, descriptions.length)],
     },
