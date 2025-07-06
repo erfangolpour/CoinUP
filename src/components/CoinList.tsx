@@ -26,7 +26,7 @@ export const CoinList: React.FC = () => {
 		setSortType,
 		sortOrder,
 		setSortOrder,
-		isLoadingCoins: isLoading,
+		isLoadingCoins,
 		listLastUpdated,
 	} = useStore();
 
@@ -83,13 +83,13 @@ export const CoinList: React.FC = () => {
 						{/* Refresh Button */}
 						<Clickable
 							onClick={() => loadCoins()}
-							disabled={isLoading}
+							disabled={isLoadingCoins}
 							className="glass-effect rounded-xl p-3 text-slate-300 hover:bg-slate-600/20 hover:text-white lg:p-4"
 						>
 							<RefreshCw
 								className={cn(
 									"h-4 w-4 lg:h-5 lg:w-5",
-									isLoading && "animate-spin",
+									isLoadingCoins && "animate-spin",
 								)}
 							/>
 						</Clickable>
@@ -178,7 +178,7 @@ export const CoinList: React.FC = () => {
 			{/* Coin Grid with Skeleton */}
 			<motion.div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
 				<AnimatePresence mode="popLayout">
-					{isLoading && coins.length === 0
+					{isLoadingCoins && coins.length === 0
 						? // Loading Placeholder with shared layoutId
 							[...Array(ENV_CONFIG.SKELETON_ITEM_COUNT)].map(
 								(_, i) => <CoinCardSkeleton key={i} />,
@@ -195,7 +195,7 @@ export const CoinList: React.FC = () => {
 			</motion.div>
 
 			{/* Empty State */}
-			{filteredCoins.length === 0 && searchQuery && !isLoading && (
+			{filteredCoins.length === 0 && searchQuery && !isLoadingCoins && (
 				<motion.div
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}

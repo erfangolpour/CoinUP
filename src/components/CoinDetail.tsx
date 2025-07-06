@@ -182,6 +182,7 @@ export const CoinDetail: React.FC = () => {
 								value={Math.abs(priceChange24h)}
 								suffix="%"
 								decimals={2}
+								simplified={false}
 							/>
 							<span className="ml-1">(24h)</span>
 						</div>
@@ -284,9 +285,6 @@ export const CoinDetail: React.FC = () => {
 								className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-xl bg-black/10"
 							>
 								<LoadingSpinner />
-								<span className="text-lg font-semibold">
-									Loading chart...
-								</span>
 							</motion.div>
 						)}
 					</AnimatePresence>
@@ -391,7 +389,7 @@ export const CoinDetail: React.FC = () => {
 								</div>
 								<div
 									className={cn(
-										"text-sm",
+										"flex items-center text-sm",
 										(coinDetail.market_data
 											?.ath_change_percentage?.usd || 0) >
 											0
@@ -399,11 +397,19 @@ export const CoinDetail: React.FC = () => {
 											: "text-red-400",
 									)}
 								>
+									{(coinDetail.market_data
+										?.ath_change_percentage?.usd || 0) >
+									0 ? (
+										<TrendingUp className="mr-1 h-4 w-4 lg:h-5 lg:w-5" />
+									) : (
+										<TrendingDown className="mr-1 h-4 w-4 lg:h-5 lg:w-5" />
+									)}
 									<AnimatedNumber
-										value={
+										value={Math.abs(
 											coinDetail.market_data
-												?.ath_change_percentage?.usd
-										}
+												?.ath_change_percentage?.usd ||
+												0,
+										)}
 										suffix="%"
 										decimals={1}
 										simplified={false}
@@ -430,7 +436,7 @@ export const CoinDetail: React.FC = () => {
 								</div>
 								<div
 									className={cn(
-										"text-sm",
+										"flex items-center text-sm",
 										(coinDetail.market_data
 											?.atl_change_percentage?.usd || 0) >
 											0
@@ -438,11 +444,19 @@ export const CoinDetail: React.FC = () => {
 											: "text-red-400",
 									)}
 								>
+									{(coinDetail.market_data
+										?.atl_change_percentage?.usd || 0) >
+									0 ? (
+										<TrendingUp className="mr-1 h-4 w-4 lg:h-5 lg:w-5" />
+									) : (
+										<TrendingDown className="mr-1 h-4 w-4 lg:h-5 lg:w-5" />
+									)}
 									<AnimatedNumber
-										value={
+										value={Math.abs(
 											coinDetail.market_data
-												?.atl_change_percentage?.usd
-										}
+												?.atl_change_percentage?.usd ||
+												0,
+										)}
 										suffix="%"
 										decimals={1}
 										simplified={false}
@@ -485,6 +499,7 @@ export const CoinDetail: React.FC = () => {
 									}
 									suffix="%"
 									decimals={1}
+									simplified={false}
 								/>
 							</div>
 							<div className="text-sm text-slate-400 lg:text-base">

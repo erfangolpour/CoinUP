@@ -153,6 +153,7 @@ export const CoinCard: React.FC<CoinCardProps> = memo(
 						<AnimatedNumber
 							value={Math.abs(coin.price_change_percentage_24h)}
 							suffix="%"
+							simplified={false}
 						/>
 						<span className="ml-1">(24h)</span>
 					</div>
