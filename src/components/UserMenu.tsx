@@ -63,7 +63,7 @@ const UserMenu: React.FC = () => {
 						animate={{ opacity: 1, scale: 1, y: 0 }}
 						exit={{ opacity: 0, scale: 0.95, y: -10 }}
 						transition={{ duration: 0.2 }}
-						className="glass-effect py-xs absolute right-0 z-50 mt-2 w-64 rounded-xl backdrop-blur-lg"
+						className="glass-effect py-xs !bg-surface-800 absolute right-0 z-50 mt-2 w-64 rounded-xl"
 					>
 						{/* User Info */}
 						<div className="border-surface-600 border-b p-4">
