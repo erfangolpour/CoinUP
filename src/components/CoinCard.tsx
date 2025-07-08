@@ -106,8 +106,7 @@ export const CoinCard: React.FC<CoinCardProps> = memo(
 					{/* Favorite Button */}
 					<Clickable
 						className={cn(
-							"p-sm !hidden !rounded-full",
-							isAuthenticated && "!block",
+							"p-sm !rounded-full",
 							isFavorite
 								? "bg-primary-600 shadow-primary-500/25 text-slate-50 shadow-lg"
 								: "btn-ghost",
@@ -136,9 +135,7 @@ export const CoinCard: React.FC<CoinCardProps> = memo(
 					<div
 						className={cn(
 							"text-sm-responsive space-x-xs align-middle",
-							isPositive
-								? "text-content-positive"
-								: "text-content-negative",
+							isPositive ? "text-content-positive" : "text-content-negative",
 						)}
 					>
 						{isPositive ? (
