@@ -53,12 +53,6 @@ const UserMenu: React.FC = () => {
 				className="btn-primary from-primary-500 to-secondary-600 p-sm flex items-center rounded-xl bg-gradient-to-br"
 			>
 				<User className="size-sm text-white" />
-				{/* <div className="ml-3 hidden text-sm sm:block">
-					<p className="text-content-primary font-medium">
-						{user.name}
-					</p>
-					<p className="text-content-tertiary">{user.email}</p>
-				</div> */}
 			</Clickable>
 
 			{/* Dropdown Menu */}
@@ -74,14 +68,14 @@ const UserMenu: React.FC = () => {
 						{/* User Info */}
 						<div className="border-surface-600 border-b p-4">
 							<div className="space-x-md flex items-center">
-								<div className="size-3xl from-primary-500 to-secondary-600 flex items-center justify-center rounded-full bg-gradient-to-br">
+								<div className="size-3xl from-primary-500 to-secondary-600 flex items-center justify-center rounded-full bg-gradient-to-br px-4 text-slate-50">
 									<User className="size-sm" />
 								</div>
 								<div>
-									<p className="text-content-primary font-medium">
+									<p className="text-content-primary overflow-hidden font-medium text-ellipsis">
 										{user.name}
 									</p>
-									<p className="text-content-secondary text-sm">
+									<p className="text-content-secondary overflow-hidden text-sm text-ellipsis">
 										{user.email}
 									</p>
 								</div>
