@@ -47,9 +47,9 @@ const Timer = memo(
 		};
 
 		return (
-			<div className={`text-content-secondary text-sm ${className}`}>
+			<div className={`text-content-secondary text-sm-responsive ${className}`}>
 				<div>Updated {formatLastUpdated(lastUpdated)}</div>
-				<div className="text-content-tertiary text-xs">
+				<div className="text-content-tertiary text-xs-responsive">
 					Next update {formatNextUpdate(lastUpdated)}
 				</div>
 			</div>

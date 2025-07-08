@@ -161,7 +161,7 @@ export const CoinDetail: React.FC = () => {
 			</div>
 
 			{/* Price Section */}
-			<div className="glass-effect p-xl space-y-lg rounded-xl backdrop-blur-sm">
+			<div className="glass-effect p-xl space-y-lg rounded-xl">
 				{/* Price Header */}
 				<div className="flex items-start justify-between">
 					<div className="space-y-sm">
@@ -252,7 +252,7 @@ export const CoinDetail: React.FC = () => {
 			</div>
 
 			{/* Chart Section */}
-			<div className="glass-effect p-xl space-y-xl rounded-xl backdrop-blur-sm">
+			<div className="glass-effect p-xl space-y-xl rounded-xl">
 				{/* Chart Header */}
 				<div className="gap-md flex flex-col items-center justify-between md:flex-row">
 					<h2 className="text-xl-responsive font-semibold">
@@ -278,7 +278,7 @@ export const CoinDetail: React.FC = () => {
 					</div>
 				</div>
 
-				<div className="relative h-64 lg:h-80">
+				<div className="h-10xl relative">
 					<AnimatePresence>
 						{isLoadingChartData && (
 							<motion.div
@@ -299,7 +299,7 @@ export const CoinDetail: React.FC = () => {
 			{/* Detailed Stats */}
 			<div className="gap-xl grid grid-cols-1 xl:grid-cols-2">
 				{/* Market Stats */}
-				<div className="glass-effect p-xl space-y-lg rounded-xl backdrop-blur-sm">
+				<div className="glass-effect p-xl space-y-lg rounded-xl">
 					<h3 className="text-lg-responsive space-x-xs align-middle font-semibold">
 						<BarChart3 className="size-md inline" />
 						<span>Market Statistics</span>
@@ -372,7 +372,7 @@ export const CoinDetail: React.FC = () => {
 				</div>
 
 				{/* Price History */}
-				<div className="glass-effect p-xl space-y-lg flex flex-col rounded-xl backdrop-blur-sm">
+				<div className="glass-effect p-xl space-y-lg flex flex-col rounded-xl">
 					<h3 className="text-lg-responsive space-x-xs align-middle font-semibold">
 						<Activity className="size-md inline" />
 						<span>Price History</span>
@@ -486,14 +486,14 @@ export const CoinDetail: React.FC = () => {
 
 			{/* ROI Section */}
 			{coinDetail.market_data?.roi && (
-				<div className="glass-effect p-xl space-y-lg rounded-xl backdrop-blur-sm">
+				<div className="glass-effect p-xl space-y-lg rounded-xl">
 					<h3 className="text-lg-responsive space-x-xs align-middle font-semibold">
 						<DollarSign className="size-md inline" />
 						<span>Return on Investment</span>
 					</h3>
 					<div className="gap-lg grid grid-cols-1 md:grid-cols-3">
 						<div className="glass-effect p-lg rounded-xl text-center">
-							<div className="text-content-positive text-xl-responsive font-bold">
+							<div className="text-content-positive text-2xl-responsive font-bold">
 								<AnimatedNumber
 									value={coinDetail.market_data?.roi?.times}
 									suffix="x"

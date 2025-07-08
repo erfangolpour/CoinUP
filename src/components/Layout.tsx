@@ -44,15 +44,15 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 							<div className="from-primary-500 to-secondary-600 size-2xl flex items-center justify-center rounded-lg bg-gradient-to-br">
 								<TrendingUp className="size-md" />
 							</div>
-							<span className="text-xl font-bold lg:text-2xl">
+							<span className="text-xl-responsive font-bold">
 								CoinUP
 							</span>
 						</Clickable>
 
 						{/* Search Bar */}
-						<div className="max-w-4xl flex-1">
+						<div className="w-120">
 							<div className="relative">
-								<Search className="text-content-tertiary absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 transform" />
+								<Search className="text-content-tertiary size-md absolute top-1/2 left-4 -translate-y-1/2 transform" />
 								<input
 									type="text"
 									placeholder="Search cryptocurrencies..."
@@ -61,7 +61,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 										setLocalSearchQuery(e.target.value)
 									}
 									onFocus={() => setSelectedCoin(null)}
-									className="border-surface-600 bg-surface-800/50 placeholder-text-tertiary focus:border-primary-500 focus:ring-primary-500/20 w-full rounded-xl border py-3 pr-4 pl-12 text-ellipsis transition-all duration-200 focus:ring-2 focus:outline-none lg:py-4"
+									className="border-surface-600 bg-surface-800/50 placeholder-text-tertiary focus:border-primary-500 focus:ring-primary-500/20 py-md w-full rounded-xl border pr-4 pl-12 text-ellipsis transition-all duration-200 focus:ring-2 focus:outline-none"
 								/>
 							</div>
 						</div>

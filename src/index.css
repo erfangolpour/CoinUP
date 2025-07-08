@@ -62,15 +62,6 @@
 	box-sizing: border-box;
 }
 
-/* Performance optimizations */
-*,
-*::before,
-*::after {
-	/* Enable hardware acceleration for better performance */
-	transform: translateZ(0);
-	backface-visibility: hidden;
-}
-
 /* Focus styles */
 *:focus {
 	@apply outline-primary-500 outline-2;
@@ -92,12 +83,6 @@ body {
 	@apply bg-glass-light;
 	@apply border-surface-700 border;
 	@apply shadow-glass;
-}
-
-.glass-effect-medium {
-	@apply bg-glass-medium;
-	@apply border-surface-600 border;
-	@apply shadow-glass-sm;
 }
 
 /* Button styles */
@@ -301,6 +286,9 @@ body {
 .h-5xl {
 	@apply h-16 lg:h-20;
 }
+.h-10xl {
+	@apply h-64 lg:h-80;
+}
 
 .w-xs {
 	@apply w-3 lg:w-4;
@@ -356,18 +344,6 @@ body {
 }
 .size-5xl {
 	@apply size-16 lg:size-20;
-}
-.size-6xl {
-	@apply size-20 lg:size-24;
-}
-.size-7xl {
-	@apply size-24 lg:size-32;
-}
-.size-8xl {
-	@apply size-32 lg:size-48;
-}
-.size-9xl {
-	@apply size-48 lg:size-64;
 }
 
 /* Custom scrollbar */

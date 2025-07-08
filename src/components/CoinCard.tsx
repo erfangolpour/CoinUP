@@ -87,18 +87,18 @@ export const CoinCard: React.FC<CoinCardProps> = memo(
 
 				{/* Coin Header */}
 				<div className="flex items-start justify-between">
-					<div className="space-x-lg flex items-center">
+					<div className="space-x-5 flex items-center">
 						<div className="glass-effect size-4xl flex items-center justify-center overflow-hidden rounded-full">
 							<img
 								src={coin.image}
 								alt={coin.name}
-								className="size-3xl object-cover"
+								className="size-12 object-cover"
 								onError={(e) => {
 									e.currentTarget.style.display = "none";
 								}}
 							/>
 						</div>
-						<div className="flex-1 space-y-1">
+						<div className="flex-1">
 							<h3 className="text-xl-responsive font-semibold">
 								<HighlightText
 									text={coin.name}

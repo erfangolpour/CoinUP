@@ -84,7 +84,7 @@ export const PriceChart: React.FC<PriceChartProps> = memo(
 		};
 
 		return (
-			<div className="h-64 w-full lg:h-80">
+			<div className="h-10xl w-full">
 				<ResponsiveContainer width="100%" height="100%">
 					<LineChart data={chartData}>
 						<CartesianGrid strokeDasharray="3 3" stroke="#475569" />

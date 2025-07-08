@@ -204,8 +204,8 @@ export const CoinList: React.FC = () => {
 					<div className="text-content-tertiary space-y-md">
 						<ArrowUpDown className="mx-auto size-4xl" />
 						<div>
-							<p className="text-lg">No cryptocurrencies found</p>
-							<p className="text-sm">
+							<p className="text-lg-responsive">No cryptocurrencies found</p>
+							<p className="text-sm-responsive">
 								Try adjusting your search terms
 							</p>
 						</div>
