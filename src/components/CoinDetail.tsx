@@ -5,7 +5,7 @@ import AnimatedNumber from "@components/common/AnimatedNumber";
 import LoadingSpinner from "@components/common/LoadingSpinner";
 import { CoinDetailSkeleton } from "@components/skeleton/CoinDetailSkeleton";
 import { ENV_CONFIG } from "@config/env";
-import { useStore } from "@stores/useStore";
+import { useStore } from "@/stores/useCoinStore";
 import { cn } from "@utils/cn";
 import {
 	Activity,

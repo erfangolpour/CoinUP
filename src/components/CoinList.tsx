@@ -6,7 +6,7 @@ import { CoinCardSkeleton } from "@components/skeleton/CoinCardSkeleton";
 import { ENV_CONFIG } from "@config/env";
 import { useDebounce } from "@hooks/useDebounce";
 import { useFilteredCoins } from "@hooks/useFilteredCoins";
-import { useStore } from "@stores/useStore";
+import { useStore } from "@/stores/useCoinStore";
 import { cn } from "@utils/cn";
 import {
 	ArrowUpDown,

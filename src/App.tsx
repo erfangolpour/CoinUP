@@ -1,7 +1,7 @@
 import { CoinDetail } from "@components/CoinDetail";
 import { CoinList } from "@components/CoinList";
 import { Layout } from "@components/Layout";
-import { useStore } from "@stores/useStore";
+import { useStore } from "@/stores/useCoinStore";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

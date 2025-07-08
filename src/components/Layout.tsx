@@ -1,29 +1,20 @@
+import { useStore } from "@/stores/useCoinStore";
+import AuthModal from "@components/AuthModal";
 import Clickable from "@components/common/Clickable";
-import { ENV_CONFIG } from "@config/env";
-import { useDebounce } from "@hooks/useDebounce";
-import { useStore } from "@stores/useStore";
-import { Search, TrendingUp } from "lucide-react";
-import { motion } from "motion/react";
-import { useEffect, useState } from "react";
+import UserMenu from "@components/UserMenu";
+import { useAuthStore } from "@stores/useAuthStore";
+import { LogIn, TrendingUp, UserPlus } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import { useState } from "react";
 
 interface LayoutProps {
 	children: React.ReactNode;
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
-	const { searchQuery, setSearchQuery, setSelectedCoin } = useStore();
-	const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
-
-	// Debounce search to prevent excessive filtering operations
-	const debouncedSearchQuery = useDebounce(
-		localSearchQuery,
-		ENV_CONFIG.SEARCH_DEBOUNCE_DELAY,
-	);
-
-	// Update the store when debounced value changes
-	useEffect(() => {
-		setSearchQuery(debouncedSearchQuery);
-	}, [debouncedSearchQuery, setSearchQuery]);
+	const { setSelectedCoin } = useStore();
+	const { isAuthenticated, setIsLogin } = useAuthStore();
+	const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
 	return (
 		<div className="from-surface-900 via-surface-800 to-surface-900 min-h-screen bg-gradient-to-br">
@@ -49,19 +40,34 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 							</span>
 						</Clickable>
 
-						{/* Search Bar */}
-						<div className="relative w-120">
-							<Search className="text-content-tertiary size-md absolute top-1/2 left-4 -translate-y-1/2 transform" />
-							<input
-								type="text"
-								placeholder="Search cryptocurrencies..."
-								value={localSearchQuery}
-								onChange={(e) =>
-									setLocalSearchQuery(e.target.value)
-								}
-								onFocus={() => setSelectedCoin(null)}
-								className="border-surface-600 bg-surface-800/50 placeholder-text-tertiary focus:border-primary-500 focus:ring-primary-500/20 py-md w-full rounded-xl border pr-4 pl-12 text-ellipsis transition-all duration-200 focus:ring-2 focus:outline-none"
-							/>
+						{/* Auth Section */}
+						<div className="flex items-center space-x-4">
+							{isAuthenticated ? (
+								<UserMenu />
+							) : (
+								<div className="flex items-center space-x-3 text-sm">
+									<Clickable
+										onClick={() => {
+											setIsLogin(true);
+											setIsAuthModalOpen(true);
+										}}
+										className="btn-ghost space-x-xs px-4 py-2"
+									>
+										<LogIn className="inline size-4" />
+										<span>Login</span>
+									</Clickable>
+									<Clickable
+										onClick={() => {
+											setIsLogin(false);
+											setIsAuthModalOpen(true);
+										}}
+										className="btn-primary space-x-xs px-4 py-2"
+									>
+										<UserPlus className="inline size-4" />
+										<span>Sign Up</span>
+									</Clickable>
+								</div>
+							)}
 						</div>
 					</div>
 				</div>
@@ -69,6 +75,13 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
 			{/* Main Content */}
 			<main className="py-2xl px-lg container mx-auto">{children}</main>
+
+			{/* Auth Modal */}
+			<AnimatePresence>
+				{isAuthModalOpen && (
+					<AuthModal onClose={() => setIsAuthModalOpen(false)} />
+				)}
+			</AnimatePresence>
 		</div>
 	);
 };

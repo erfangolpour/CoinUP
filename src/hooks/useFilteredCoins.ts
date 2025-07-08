@@ -1,4 +1,4 @@
-import { useStore } from "@stores/useStore";
+import { useStore } from "@/stores/useCoinStore";
 import { useMemo } from "react";
 
 export const useFilteredCoins = () => {

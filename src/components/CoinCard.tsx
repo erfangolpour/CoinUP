@@ -1,7 +1,7 @@
 import type { Coin } from "@/types/crypto";
 import AnimatedNumber from "@components/common/AnimatedNumber";
 import Clickable from "@components/common/Clickable";
-import { useStore } from "@stores/useStore";
+import { useStore } from "@/stores/useCoinStore";
 import { cn } from "@utils/cn";
 import { Star, TrendingDown, TrendingUp } from "lucide-react";
 import { memo, useCallback, useMemo } from "react";
