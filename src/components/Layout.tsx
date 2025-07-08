@@ -34,7 +34,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 				animate={{ y: 0 }}
 				transition={{ duration: 0.6, ease: "easeOut" }}
 			>
-				<div className="py-lg container mx-auto px-4 lg:px-0">
+				<div className="py-lg px-lg container mx-auto">
 					<div className="flex items-center justify-between gap-10">
 						{/* Logo */}
 						<Clickable
@@ -50,29 +50,25 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 						</Clickable>
 
 						{/* Search Bar */}
-						<div className="w-120">
-							<div className="relative">
-								<Search className="text-content-tertiary size-md absolute top-1/2 left-4 -translate-y-1/2 transform" />
-								<input
-									type="text"
-									placeholder="Search cryptocurrencies..."
-									value={localSearchQuery}
-									onChange={(e) =>
-										setLocalSearchQuery(e.target.value)
-									}
-									onFocus={() => setSelectedCoin(null)}
-									className="border-surface-600 bg-surface-800/50 placeholder-text-tertiary focus:border-primary-500 focus:ring-primary-500/20 py-md w-full rounded-xl border pr-4 pl-12 text-ellipsis transition-all duration-200 focus:ring-2 focus:outline-none"
-								/>
-							</div>
+						<div className="relative w-120">
+							<Search className="text-content-tertiary size-md absolute top-1/2 left-4 -translate-y-1/2 transform" />
+							<input
+								type="text"
+								placeholder="Search cryptocurrencies..."
+								value={localSearchQuery}
+								onChange={(e) =>
+									setLocalSearchQuery(e.target.value)
+								}
+								onFocus={() => setSelectedCoin(null)}
+								className="border-surface-600 bg-surface-800/50 placeholder-text-tertiary focus:border-primary-500 focus:ring-primary-500/20 py-md w-full rounded-xl border pr-4 pl-12 text-ellipsis transition-all duration-200 focus:ring-2 focus:outline-none"
+							/>
 						</div>
 					</div>
 				</div>
 			</motion.header>
 
 			{/* Main Content */}
-			<main className="py-2xl container mx-auto px-4 lg:px-0">
-				{children}
-			</main>
+			<main className="py-2xl px-lg container mx-auto">{children}</main>
 		</div>
 	);
 };

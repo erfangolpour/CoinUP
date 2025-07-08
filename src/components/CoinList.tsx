@@ -4,6 +4,7 @@ import Clickable from "@components/common/Clickable";
 import Timer from "@components/common/Timer";
 import { CoinCardSkeleton } from "@components/skeleton/CoinCardSkeleton";
 import { ENV_CONFIG } from "@config/env";
+import { useDebounce } from "@hooks/useDebounce";
 import { useFilteredCoins } from "@hooks/useFilteredCoins";
 import { useStore } from "@stores/useStore";
 import { cn } from "@utils/cn";
@@ -13,6 +14,7 @@ import {
 	ChevronUp,
 	Filter,
 	RefreshCw,
+	Search,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
@@ -26,6 +28,7 @@ export const CoinList: React.FC = () => {
 		setSortType,
 		sortOrder,
 		setSortOrder,
+		setSearchQuery,
 		isLoadingCoins,
 		listLastUpdated,
 	} = useStore();
@@ -48,6 +51,19 @@ export const CoinList: React.FC = () => {
 		return () => clearInterval(interval);
 	}, [loadCoins, listLastUpdated]);
 
+	const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
+
+	// Debounce search to prevent excessive filtering operations
+	const debouncedSearchQuery = useDebounce(
+		localSearchQuery,
+		ENV_CONFIG.SEARCH_DEBOUNCE_DELAY,
+	);
+
+	// Update the store when debounced value changes
+	useEffect(() => {
+		setSearchQuery(debouncedSearchQuery);
+	}, [debouncedSearchQuery, setSearchQuery]);
+
 	const sortTypeOptions: { value: SortType; label: string }[] = [
 		{ value: "name", label: "Name" },
 		{ value: "price", label: "Price" },
@@ -56,54 +72,63 @@ export const CoinList: React.FC = () => {
 	];
 
 	return (
-		<div className="space-y-2xl">
+		<div className="space-y-xl">
 			{/* Header */}
-			<div className="gap-xl flex flex-col items-center justify-between lg:flex-row">
-				<div className="space-y-sm w-full">
-					<h1 className="text-3xl-responsive font-bold">
+			<div className="flex items-start justify-between">
+				<div className="space-y-sm">
+					<h1 className="text-2xl-responsive font-bold">
 						Cryptocurrency Tracker
 					</h1>
 					<p className="text-content-secondary text-base-responsive">
 						{searchQuery
-							? `Showing ${filteredCoins.length} result
-                ${filteredCoins.length === 1 ? "" : "s"} for "${searchQuery}"`
+							? `Showing ${filteredCoins.length} result ${filteredCoins.length === 1 ? "" : "s"} for "${searchQuery}"`
 							: `Tracking ${coins.length} cryptocurrencies`}
 					</p>
 				</div>
 
-				<div className="space-x-lg flex w-full items-center justify-between lg:justify-end">
-					{/* Last Updated */}
-					<Timer
-						lastUpdated={listLastUpdated}
-						refreshInterval={ENV_CONFIG.REFRESH_INTERVAL}
-						className="text-left lg:text-right"
+				{/* Last Updated */}
+				<Timer
+					className="text-right hidden md:block"
+					lastUpdated={listLastUpdated}
+					refreshInterval={ENV_CONFIG.REFRESH_INTERVAL}
+				/>
+			</div>
+
+			<div className="space-x-sm flex w-full">
+				{/* Search Bar */}
+				<div className="relative grow">
+					<Search className="text-content-tertiary size-md absolute top-1/2 left-4 -translate-y-1/2 transform" />
+					<input
+						type="text"
+						placeholder="Search..."
+						value={localSearchQuery}
+						onChange={(e) => setLocalSearchQuery(e.target.value)}
+						className="border-surface-600 bg-surface-800/50 placeholder-text-tertiary focus:border-primary-500 focus:ring-primary-500/20 py-md w-full rounded-xl border pr-4 pl-12 text-ellipsis transition-all duration-200 focus:ring-2 focus:outline-none"
 					/>
-
-					<div className="gap-sm flex">
-						{/* Refresh Button */}
-						<Clickable
-							onClick={() => loadCoins()}
-							disabled={isLoadingCoins}
-							className="btn-ghost p-md"
-						>
-							<RefreshCw
-								className={cn(
-									"size-sm",
-									isLoadingCoins && "animate-spin",
-								)}
-							/>
-						</Clickable>
-
-						{/* Sort & Filter */}
-						<Clickable
-							onClick={() => setShowFilters(!showFilters)}
-							className="btn-primary px-lg py-sm gap-2"
-						>
-							<Filter className="size-sm" />
-							<span>Sort</span>
-						</Clickable>
-					</div>
 				</div>
+
+				{/* Sort & Filter */}
+				<Clickable
+					onClick={() => setShowFilters(!showFilters)}
+					className="btn-primary px-lg py-sm gap-2"
+				>
+					<Filter className="size-sm" />
+					<span>Sort</span>
+				</Clickable>
+
+				{/* Refresh Button */}
+				<Clickable
+					onClick={() => loadCoins()}
+					disabled={isLoadingCoins}
+					className="btn-ghost p-md"
+				>
+					<RefreshCw
+						className={cn(
+							"size-sm",
+							isLoadingCoins && "animate-spin",
+						)}
+					/>
+				</Clickable>
 			</div>
 
 			{/* Filter Panel */}
@@ -202,9 +227,11 @@ export const CoinList: React.FC = () => {
 					className="py-2xl text-center"
 				>
 					<div className="text-content-tertiary space-y-md">
-						<ArrowUpDown className="mx-auto size-4xl" />
+						<ArrowUpDown className="size-4xl mx-auto" />
 						<div>
-							<p className="text-lg-responsive">No cryptocurrencies found</p>
+							<p className="text-lg-responsive">
+								No cryptocurrencies found
+							</p>
 							<p className="text-sm-responsive">
 								Try adjusting your search terms
 							</p>

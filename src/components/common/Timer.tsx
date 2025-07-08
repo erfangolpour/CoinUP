@@ -1,3 +1,4 @@
+import { cn } from "@/utils/cn";
 import { memo, useEffect, useState } from "react";
 
 interface TimerProps {
@@ -47,7 +48,12 @@ const Timer = memo(
 		};
 
 		return (
-			<div className={`text-content-secondary text-sm-responsive ${className}`}>
+			<div
+				className={cn(
+					"text-content-secondary text-sm-responsive",
+					className,
+				)}
+			>
 				<div>Updated {formatLastUpdated(lastUpdated)}</div>
 				<div className="text-content-tertiary text-xs-responsive">
 					Next update {formatNextUpdate(lastUpdated)}
