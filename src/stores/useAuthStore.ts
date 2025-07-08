@@ -1,17 +1,12 @@
+import type { User } from "@/types/auth";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-
-export interface User {
-	id: string;
-	email: string;
-	name: string;
-	createdAt: Date;
-}
 
 interface AuthState {
 	user: User | null;
 	isAuthenticated: boolean;
 	isLogin: boolean;
+	users: Array<User & { password: string }>;
 }
 
 interface AuthActions {
@@ -24,12 +19,13 @@ interface AuthActions {
 	logout: () => void;
 	deleteAccount: () => void;
 	setIsLogin: (isLogin: boolean) => void;
+
+	// Favorites management
+	toggleFavorite: (coinId: string) => void;
+	getFavorites: () => string[];
 }
 
 type AuthStore = AuthState & AuthActions;
-
-// Mock user database (in real app, this would be handled by backend)
-const mockUsers: Array<User & { password: string }> = [];
 
 export const useAuthStore = create<AuthStore>()(
 	persist(
@@ -38,6 +34,7 @@ export const useAuthStore = create<AuthStore>()(
 			user: null,
 			isAuthenticated: false,
 			isLogin: true,
+			users: [],
 
 			// Actions
 			setIsLogin: (isLogin: boolean) => set({ isLogin }),
@@ -47,7 +44,8 @@ export const useAuthStore = create<AuthStore>()(
 					// Simulate API delay
 					await new Promise((resolve) => setTimeout(resolve, 1000));
 
-					const user = mockUsers.find((u) => u.email === email);
+					const { users } = get();
+					const user = users.find((u) => u.email === email);
 					if (!user) {
 						throw new Error("User not found");
 					}
@@ -74,10 +72,9 @@ export const useAuthStore = create<AuthStore>()(
 					// Simulate API delay
 					await new Promise((resolve) => setTimeout(resolve, 1000));
 
+					const { users } = get();
 					// Check if user already exists
-					const existingUser = mockUsers.find(
-						(u) => u.email === email,
-					);
+					const existingUser = users.find((u) => u.email === email);
 					if (existingUser) {
 						throw new Error("User already exists");
 					}
@@ -88,14 +85,16 @@ export const useAuthStore = create<AuthStore>()(
 						name,
 						password,
 						createdAt: new Date(),
+						favorites: [],
 					};
 
-					mockUsers.push(newUser);
-
+					const updatedUsers = [...users, newUser];
 					const { password: _, ...userWithoutPassword } = newUser;
+
 					set({
 						user: userWithoutPassword,
 						isAuthenticated: true,
+						users: updatedUsers,
 					});
 
 					return true;
@@ -113,22 +112,55 @@ export const useAuthStore = create<AuthStore>()(
 			},
 
 			deleteAccount: () => {
-				const { user } = get();
+				const { user, users } = get();
 				if (user) {
-					// Remove from mock database
-					const userIndex = mockUsers.findIndex(
-						(u) => u.id === user.id,
-					);
-					if (userIndex !== -1) {
-						mockUsers.splice(userIndex, 1);
-					}
+					// Remove from user database
+					const updatedUsers = users.filter((u) => u.id !== user.id);
 
 					// Clear from store
 					set({
 						user: null,
 						isAuthenticated: false,
+						users: updatedUsers,
 					});
 				}
+			},
+
+			// Favorites management
+			toggleFavorite: (coinId: string) => {
+				const { user, users } = get();
+				if (!user) return;
+
+				// Update user's favorites
+				const updatedUsers = users.map((u) => {
+					if (u.id === user.id) {
+						const newFavorites = u.favorites.includes(coinId)
+							? u.favorites.filter((id) => id !== coinId)
+							: [...u.favorites, coinId];
+						return { ...u, favorites: newFavorites };
+					}
+					return u;
+				});
+
+				// Update current user state
+				const updatedUser = { ...user };
+				if (updatedUser.favorites.includes(coinId)) {
+					updatedUser.favorites = updatedUser.favorites.filter(
+						(id) => id !== coinId,
+					);
+				} else {
+					updatedUser.favorites = [...updatedUser.favorites, coinId];
+				}
+
+				set({
+					user: updatedUser,
+					users: updatedUsers,
+				});
+			},
+
+			getFavorites: () => {
+				const { user } = get();
+				return user?.favorites || [];
 			},
 		}),
 		{
@@ -137,6 +169,7 @@ export const useAuthStore = create<AuthStore>()(
 			partialize: (state) => ({
 				user: state.user,
 				isAuthenticated: state.isAuthenticated,
+				users: state.users,
 			}),
 		},
 	),

@@ -1,4 +1,4 @@
-import type { ChartData } from "@/types/crypto";
+import type { ChartData } from "@/types/coin";
 import { formatNumber } from "@utils/formatters";
 import { memo, useMemo } from "react";
 import {

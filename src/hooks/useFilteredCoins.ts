@@ -1,8 +1,11 @@
 import { useStore } from "@/stores/useCoinStore";
+import { useAuthStore } from "@/stores/useAuthStore";
 import { useMemo } from "react";
 
 export const useFilteredCoins = () => {
-	const { coins, searchQuery, favorites, sortType, sortOrder } = useStore();
+	const { coins, searchQuery, sortType, sortOrder } = useStore();
+	const { getFavorites } = useAuthStore();
+	const favorites = getFavorites();
 
 	const filteredCoins = useMemo(() => {
 		let filtered = coins;

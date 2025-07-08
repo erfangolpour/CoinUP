@@ -1,11 +1,12 @@
 import Timer from "@/components/common/Timer";
+import { useAuthStore } from "@/stores/useAuthStore";
+import { useStore } from "@/stores/useCoinStore";
 import { formatDate } from "@/utils/formatters";
 import { PriceChart } from "@components/PriceChart";
 import AnimatedNumber from "@components/common/AnimatedNumber";
 import LoadingSpinner from "@components/common/LoadingSpinner";
-import { CoinDetailSkeleton } from "@components/skeleton/CoinDetailSkeleton";
+import { CoinDetailsSkeleton } from "@components/skeleton/CoinDetailsSkeleton";
 import { ENV_CONFIG } from "@config/env";
-import { useStore } from "@/stores/useCoinStore";
 import { cn } from "@utils/cn";
 import {
 	Activity,
@@ -19,31 +20,33 @@ import {
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import Clickable from "./common/Clickable";
 
-export const CoinDetail: React.FC = () => {
+export const CoinDetails: React.FC = () => {
 	const {
 		selectedCoin,
 		setSelectedCoin,
-		coinDetail,
-		loadCoinDetail,
+		CoinDetails,
+		loadCoinDetails,
 		chartData,
 		loadChartData,
-		favorites,
-		toggleFavorite,
-		isLoadingCoinDetail,
+		isLoadingCoinDetails,
 		isLoadingChartData,
 		detailLastUpdated,
 	} = useStore();
+
+	const { getFavorites, toggleFavorite, isAuthenticated } = useAuthStore();
+	const favorites = getFavorites();
 
 	const [chartPeriod, setChartPeriod] = useState(30);
 
 	useEffect(() => {
 		if (selectedCoin) {
-			loadCoinDetail(selectedCoin);
+			loadCoinDetails(selectedCoin);
 			window.scrollTo(0, 0);
 		}
-	}, [selectedCoin, loadCoinDetail]);
+	}, [selectedCoin, loadCoinDetails]);
 
 	useEffect(() => {
 		if (selectedCoin) {
@@ -56,32 +59,32 @@ export const CoinDetail: React.FC = () => {
 		if (!selectedCoin) return;
 
 		const interval = setInterval(() => {
-			loadCoinDetail(selectedCoin);
+			loadCoinDetails(selectedCoin);
 		}, ENV_CONFIG.REFRESH_INTERVAL);
 
 		return () => clearInterval(interval);
-	}, [selectedCoin, loadCoinDetail, detailLastUpdated]);
+	}, [selectedCoin, loadCoinDetails, detailLastUpdated]);
 
 	const handleRefresh = () => {
 		if (selectedCoin) {
-			loadCoinDetail(selectedCoin);
+			loadCoinDetails(selectedCoin);
 			loadChartData(selectedCoin, chartPeriod);
 		}
 	};
 
 	// Show skeleton only when loading coin detail for the first time
-	if (isLoadingCoinDetail && !coinDetail) {
-		return <CoinDetailSkeleton />;
+	if (isLoadingCoinDetails && !CoinDetails) {
+		return <CoinDetailsSkeleton />;
 	}
 
-	if (!coinDetail || !selectedCoin) return null;
+	if (!CoinDetails || !selectedCoin) return null;
 
 	const isFavorite = favorites.includes(selectedCoin);
 	const isPositive =
-		(coinDetail.market_data?.price_change_percentage_24h || 0) > 0;
-	const currentPrice = coinDetail.market_data?.current_price?.usd || 0;
+		(CoinDetails.market_data?.price_change_percentage_24h || 0) > 0;
+	const currentPrice = CoinDetails.market_data?.current_price?.usd || 0;
 	const priceChange24h =
-		coinDetail.market_data?.price_change_percentage_24h || 0;
+		CoinDetails.market_data?.price_change_percentage_24h || 0;
 
 	return (
 		<motion.div
@@ -103,17 +106,17 @@ export const CoinDetail: React.FC = () => {
 					<div className="space-x-lg flex items-center">
 						<div className="glass-effect size-5xl flex items-center justify-center overflow-hidden rounded-full">
 							<img
-								src={coinDetail.image?.large}
-								alt={coinDetail.name}
+								src={CoinDetails.image?.large}
+								alt={CoinDetails.name}
 								className="size-4xl object-cover"
 							/>
 						</div>
 						<div>
 							<h1 className="text-2xl font-bold text-white lg:text-5xl">
-								{coinDetail.name}
+								{CoinDetails.name}
 							</h1>
 							<p className="text-base-responsive text-content-secondary uppercase">
-								{coinDetail.symbol}
+								{CoinDetails.symbol}
 							</p>
 						</div>
 					</div>
@@ -130,19 +133,27 @@ export const CoinDetail: React.FC = () => {
 					{/* Refresh Button */}
 					<Clickable
 						onClick={handleRefresh}
-						disabled={isLoadingCoinDetail}
+						disabled={isLoadingCoinDetails}
 						className="btn-ghost p-md !hidden md:!inline-flex"
 					>
 						<RefreshCw
 							className={cn(
 								"size-lg",
-								isLoadingCoinDetail && "animate-spin",
+								isLoadingCoinDetails && "animate-spin",
 							)}
 						/>
 					</Clickable>
 
 					<Clickable
-						onClick={() => toggleFavorite(selectedCoin)}
+						onClick={() => {
+							if (!isAuthenticated) {
+								toast.info("Please login to add favorites");
+								return;
+							}
+							if (selectedCoin) {
+								toggleFavorite(selectedCoin);
+							}
+						}}
 						className={cn(
 							"p-md rounded-xl",
 							isFavorite
@@ -195,7 +206,7 @@ export const CoinDetail: React.FC = () => {
 							Market Cap Rank
 						</div>
 						<div className="text-2xl font-bold text-white lg:text-4xl">
-							#{coinDetail.market_cap_rank}
+							#{CoinDetails.market_cap_rank}
 						</div>
 					</div>
 				</div>
@@ -208,7 +219,7 @@ export const CoinDetail: React.FC = () => {
 						</div>
 						<div className="text-lg-responsive font-semibold">
 							<AnimatedNumber
-								value={coinDetail.market_data?.high_24h?.usd}
+								value={CoinDetails.market_data?.high_24h?.usd}
 								prefix="$"
 							/>
 						</div>
@@ -219,7 +230,7 @@ export const CoinDetail: React.FC = () => {
 						</div>
 						<div className="text-lg-responsive font-semibold">
 							<AnimatedNumber
-								value={coinDetail.market_data?.low_24h?.usd}
+								value={CoinDetails.market_data?.low_24h?.usd}
 								prefix="$"
 							/>
 						</div>
@@ -230,7 +241,7 @@ export const CoinDetail: React.FC = () => {
 						</div>
 						<div className="text-lg-responsive font-semibold">
 							<AnimatedNumber
-								value={coinDetail.market_data?.market_cap?.usd}
+								value={CoinDetails.market_data?.market_cap?.usd}
 								prefix="$"
 							/>
 						</div>
@@ -242,7 +253,7 @@ export const CoinDetail: React.FC = () => {
 						<div className="text-lg-responsive font-semibold">
 							<AnimatedNumber
 								value={
-									coinDetail.market_data?.total_volume?.usd
+									CoinDetails.market_data?.total_volume?.usd
 								}
 								prefix="$"
 							/>
@@ -312,7 +323,7 @@ export const CoinDetail: React.FC = () => {
 							<span>
 								<AnimatedNumber
 									value={
-										coinDetail.market_data?.market_cap?.usd
+										CoinDetails.market_data?.market_cap?.usd
 									}
 									prefix="$"
 								/>
@@ -325,7 +336,7 @@ export const CoinDetail: React.FC = () => {
 							<span>
 								<AnimatedNumber
 									value={
-										coinDetail.market_data
+										CoinDetails.market_data
 											?.fully_diluted_valuation?.usd
 									}
 									prefix="$"
@@ -339,7 +350,7 @@ export const CoinDetail: React.FC = () => {
 							<span>
 								<AnimatedNumber
 									value={
-										coinDetail.market_data
+										CoinDetails.market_data
 											?.circulating_supply || 0
 									}
 									prefix="$"
@@ -352,7 +363,9 @@ export const CoinDetail: React.FC = () => {
 							</span>
 							<span>
 								<AnimatedNumber
-									value={coinDetail.market_data?.total_supply}
+									value={
+										CoinDetails.market_data?.total_supply
+									}
 									prefix="$"
 								/>
 							</span>
@@ -363,7 +376,7 @@ export const CoinDetail: React.FC = () => {
 							</span>
 							<span>
 								<AnimatedNumber
-									value={coinDetail.market_data?.max_supply}
+									value={CoinDetails.market_data?.max_supply}
 									prefix="$"
 								/>
 							</span>
@@ -382,10 +395,10 @@ export const CoinDetail: React.FC = () => {
 							<div className="flex flex-col">
 								<span>All-Time High</span>
 								<span className="text-content-secondary font-medium">
-									{coinDetail.market_data?.ath_date?.usd
+									{CoinDetails.market_data?.ath_date?.usd
 										? formatDate(
-												coinDetail.market_data?.ath_date
-													?.usd,
+												CoinDetails.market_data
+													?.ath_date?.usd,
 											)
 										: "N/A"}
 								</span>
@@ -393,21 +406,23 @@ export const CoinDetail: React.FC = () => {
 							<div className="text-right">
 								<div>
 									<AnimatedNumber
-										value={coinDetail.market_data?.ath?.usd}
+										value={
+											CoinDetails.market_data?.ath?.usd
+										}
 										prefix="$"
 									/>
 								</div>
 								<div
 									className={cn(
 										"text-sm-responsive space-x-xs align-middle",
-										(coinDetail.market_data
+										(CoinDetails.market_data
 											?.ath_change_percentage?.usd || 0) >
 											0
 											? "text-content-positive"
 											: "text-content-negative",
 									)}
 								>
-									{(coinDetail.market_data
+									{(CoinDetails.market_data
 										?.ath_change_percentage?.usd || 0) >
 									0 ? (
 										<TrendingUp className="size-sm inline" />
@@ -416,7 +431,7 @@ export const CoinDetail: React.FC = () => {
 									)}
 									<AnimatedNumber
 										value={Math.abs(
-											coinDetail.market_data
+											CoinDetails.market_data
 												?.ath_change_percentage?.usd ||
 												0,
 										)}
@@ -432,29 +447,31 @@ export const CoinDetail: React.FC = () => {
 								<span>All-Time Low</span>
 								<span className="text-content-secondary">
 									{formatDate(
-										coinDetail.market_data?.atl_date?.usd ||
-											"",
+										CoinDetails.market_data?.atl_date
+											?.usd || "",
 									)}
 								</span>
 							</div>
 							<div className="text-right">
 								<div>
 									<AnimatedNumber
-										value={coinDetail.market_data?.atl?.usd}
+										value={
+											CoinDetails.market_data?.atl?.usd
+										}
 										prefix="$"
 									/>
 								</div>
 								<div
 									className={cn(
 										"text-sm-responsive space-x-xs align-middle",
-										(coinDetail.market_data
+										(CoinDetails.market_data
 											?.atl_change_percentage?.usd || 0) >
 											0
 											? "text-content-positive"
 											: "text-content-negative",
 									)}
 								>
-									{(coinDetail.market_data
+									{(CoinDetails.market_data
 										?.atl_change_percentage?.usd || 0) >
 									0 ? (
 										<TrendingUp className="size-sm inline" />
@@ -463,7 +480,7 @@ export const CoinDetail: React.FC = () => {
 									)}
 									<AnimatedNumber
 										value={Math.abs(
-											coinDetail.market_data
+											CoinDetails.market_data
 												?.atl_change_percentage?.usd ||
 												0,
 										)}
@@ -478,14 +495,14 @@ export const CoinDetail: React.FC = () => {
 							<span className="text-content-secondary">
 								Last Updated
 							</span>
-							<span>{formatDate(coinDetail.last_updated)}</span>
+							<span>{formatDate(CoinDetails.last_updated)}</span>
 						</div>
 					</div>
 				</div>
 			</div>
 
 			{/* ROI Section */}
-			{coinDetail.market_data?.roi && (
+			{CoinDetails.market_data?.roi && (
 				<div className="glass-effect p-xl space-y-lg rounded-xl">
 					<h3 className="text-lg-responsive space-x-xs align-middle font-semibold">
 						<DollarSign className="size-md inline" />
@@ -495,7 +512,7 @@ export const CoinDetail: React.FC = () => {
 						<div className="glass-effect p-lg rounded-xl text-center">
 							<div className="text-content-positive text-2xl-responsive font-bold">
 								<AnimatedNumber
-									value={coinDetail.market_data?.roi?.times}
+									value={CoinDetails.market_data?.roi?.times}
 									suffix="x"
 								/>
 							</div>
@@ -507,7 +524,7 @@ export const CoinDetail: React.FC = () => {
 							<div className="text-content-positive text-2xl-responsive font-bold">
 								<AnimatedNumber
 									value={
-										coinDetail.market_data?.roi?.percentage
+										CoinDetails.market_data?.roi?.percentage
 									}
 									suffix="%"
 									decimals={1}
@@ -520,7 +537,7 @@ export const CoinDetail: React.FC = () => {
 						</div>
 						<div className="glass-effect p-lg rounded-xl text-center">
 							<div className="text-2xl-responsive font-bold">
-								{coinDetail.market_data?.roi?.currency?.toUpperCase()}
+								{CoinDetails.market_data?.roi?.currency?.toUpperCase()}
 							</div>
 							<div className="text-content-secondary text-sm-responsive">
 								Base Currency

@@ -1,7 +1,7 @@
-import { CoinDetail } from "@components/CoinDetail";
+import { useStore } from "@/stores/useCoinStore";
+import { CoinDetails } from "@components/CoinDetails";
 import { CoinList } from "@components/CoinList";
 import { Layout } from "@components/Layout";
-import { useStore } from "@/stores/useCoinStore";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -10,7 +10,7 @@ function App() {
 
 	return (
 		<Layout>
-			{selectedCoin ? <CoinDetail /> : <CoinList />}
+			{selectedCoin ? <CoinDetails /> : <CoinList />}
 			<ToastContainer
 				position="bottom-center"
 				autoClose={5000}

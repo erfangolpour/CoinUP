@@ -1,10 +1,12 @@
-import type { Coin } from "@/types/crypto";
+import { useAuthStore } from "@/stores/useAuthStore";
+import { useStore } from "@/stores/useCoinStore";
+import type { Coin } from "@/types/coin";
 import AnimatedNumber from "@components/common/AnimatedNumber";
 import Clickable from "@components/common/Clickable";
-import { useStore } from "@/stores/useCoinStore";
 import { cn } from "@utils/cn";
 import { Star, TrendingDown, TrendingUp } from "lucide-react";
-import { memo, useCallback, useMemo } from "react";
+import { memo, useMemo } from "react";
+import { toast } from "react-toastify";
 
 interface CoinCardProps {
 	coin: Coin;
@@ -42,22 +44,12 @@ const HighlightText = memo(
 
 export const CoinCard: React.FC<CoinCardProps> = memo(
 	({ coin, searchQuery = "" }) => {
-		const { favorites, toggleFavorite, setSelectedCoin } = useStore();
+		const { setSelectedCoin } = useStore();
+		const { getFavorites, toggleFavorite, isAuthenticated } =
+			useAuthStore();
+		const favorites = getFavorites();
 		const isFavorite = favorites.includes(coin.id);
 		const isPositive = coin.price_change_percentage_24h > 0;
-
-		// Memoize click handlers
-		const handleCardClick = useCallback(() => {
-			setSelectedCoin(coin.id);
-		}, [coin.id, setSelectedCoin]);
-
-		const handleFavoriteClick = useCallback(
-			(e: React.MouseEvent) => {
-				e.stopPropagation();
-				toggleFavorite(coin.id);
-			},
-			[coin.id, toggleFavorite],
-		);
 
 		return (
 			<Clickable
@@ -73,12 +65,12 @@ export const CoinCard: React.FC<CoinCardProps> = memo(
 					y: { duration: 0.1, type: "tween" },
 				}}
 				className={cn(
-					"glass-effect space-y-lg rounded-xl border p-6",
+					"glass-effect space-y-lg relative rounded-xl border p-6",
 					isFavorite
 						? "border-primary-500/50 shadow-primary-500/20 shadow-lg"
 						: "border-surface-700/50 hover:border-surface-600/50",
 				)}
-				onClick={handleCardClick}
+				onClick={() => setSelectedCoin(coin.id)}
 			>
 				{/* Favorite Indicator */}
 				{isFavorite && (
@@ -87,7 +79,7 @@ export const CoinCard: React.FC<CoinCardProps> = memo(
 
 				{/* Coin Header */}
 				<div className="flex items-start justify-between">
-					<div className="space-x-5 flex items-center">
+					<div className="flex items-center space-x-5">
 						<div className="glass-effect size-4xl flex items-center justify-center overflow-hidden rounded-full">
 							<img
 								src={coin.image}
@@ -122,7 +114,14 @@ export const CoinCard: React.FC<CoinCardProps> = memo(
 								? "bg-primary-600 shadow-primary-500/25 shadow-lg"
 								: "glass-effect text-content-secondary hover:bg-surface-600/20",
 						)}
-						onClick={handleFavoriteClick}
+						onClick={(e) => {
+							e.stopPropagation();
+							if (!isAuthenticated) {
+								toast.info("Please login to add favorites");
+								return;
+							}
+							toggleFavorite(coin.id);
+						}}
 					>
 						<Star
 							className="size-5"

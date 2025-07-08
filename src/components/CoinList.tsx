@@ -1,4 +1,5 @@
-import type { SortType } from "@/types/crypto";
+import { useStore } from "@/stores/useCoinStore";
+import type { SortType } from "@/types/coin";
 import { CoinCard } from "@components/CoinCard";
 import Clickable from "@components/common/Clickable";
 import Timer from "@components/common/Timer";
@@ -6,7 +7,6 @@ import { CoinCardSkeleton } from "@components/skeleton/CoinCardSkeleton";
 import { ENV_CONFIG } from "@config/env";
 import { useDebounce } from "@hooks/useDebounce";
 import { useFilteredCoins } from "@hooks/useFilteredCoins";
-import { useStore } from "@/stores/useCoinStore";
 import { cn } from "@utils/cn";
 import {
 	ArrowUpDown,
@@ -88,7 +88,7 @@ export const CoinList: React.FC = () => {
 
 				{/* Last Updated */}
 				<Timer
-					className="text-right hidden md:block"
+					className="hidden text-right md:block"
 					lastUpdated={listLastUpdated}
 					refreshInterval={ENV_CONFIG.REFRESH_INTERVAL}
 				/>

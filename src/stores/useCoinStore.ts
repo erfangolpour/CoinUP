@@ -1,8 +1,14 @@
-import type { AppState, SortOption, SortOrder, SortType } from "@/types/crypto";
-import { fetchChartData, fetchCoinDetail, fetchCoins } from "@api/API";
+import type {
+	ChartData,
+	Coin,
+	CoinDetails,
+	SortOrder,
+	SortType,
+} from "@/types/coin";
+import { fetchChartData, fetchCoinDetails, fetchCoins } from "@api/API";
 import {
 	fetchMockChartData,
-	fetchMockCoinDetail,
+	fetchMockCoinDetails,
 	fetchMockCoins,
 } from "@api/mockAPI";
 import { ENV_CONFIG } from "@config/env";
@@ -10,48 +16,51 @@ import { toast } from "react-toastify";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-interface StoreActions {
+export interface CoinState {
+	coins: Coin[];
+	selectedCoin: string | null;
+	CoinDetails: CoinDetails | null;
+	chartData: ChartData | null;
+	searchQuery: string;
+	sortType: SortType;
+	sortOrder: SortOrder;
+	isLoadingCoins: boolean;
+	isLoadingCoinDetails: boolean;
+	isLoadingChartData: boolean;
+	listLastUpdated: number;
+	detailLastUpdated: number;
+}
+
+interface CoinActions {
 	// Coins
 	loadCoins: () => Promise<void>;
 	setSortType: (sortType: SortType) => void;
 	setSortOrder: (sortOrder: SortOrder) => void;
-
-	// Favorites
-	toggleFavorite: (coinId: string) => void;
 
 	// Search
 	setSearchQuery: (query: string) => void;
 
 	// Selected coin
 	setSelectedCoin: (coinId: string | null) => void;
-	loadCoinDetail: (coinId: string) => Promise<void>;
+	loadCoinDetails: (coinId: string) => Promise<void>;
 	loadChartData: (coinId: string, days?: number) => Promise<void>;
 }
 
-type Store = AppState & StoreActions;
-
-// Helper function to construct the sorting parameter for API calls
-const getSortOption = (
-	sortType: SortType,
-	sortOrder: SortOrder,
-): SortOption => {
-	return `${sortType}_${sortOrder}` as SortOption;
-};
+type Store = CoinState & CoinActions;
 
 export const useStore = create<Store>()(
 	persist(
 		(set, get) => ({
 			// Initial state
 			coins: [],
-			favorites: [],
 			selectedCoin: null,
-			coinDetail: null,
+			CoinDetails: null,
 			chartData: null,
 			searchQuery: "",
 			sortType: "market_cap",
 			sortOrder: "desc",
 			isLoadingCoins: false,
-			isLoadingCoinDetail: false,
+			isLoadingCoinDetails: false,
 			isLoadingChartData: false,
 			listLastUpdated: 0,
 			detailLastUpdated: 0,
@@ -62,7 +71,7 @@ export const useStore = create<Store>()(
 				set({ isLoadingCoins: true });
 				try {
 					const { sortType, sortOrder } = get();
-					const sortBy = getSortOption(sortType, sortOrder);
+					const sortBy = `${sortType}_${sortOrder}`;
 
 					const coins = ENV_CONFIG.ENABLE_MOCK_API
 						? await fetchMockCoins("usd", sortBy)
@@ -84,39 +93,30 @@ export const useStore = create<Store>()(
 				set({ sortOrder });
 			},
 
-			toggleFavorite: (coinId: string) => {
-				const { favorites } = get();
-				if (favorites.includes(coinId)) {
-					set({ favorites: favorites.filter((id) => id !== coinId) });
-				} else {
-					set({ favorites: [...favorites, coinId] });
-				}
-			},
-
 			setSearchQuery: (query: string) => {
 				set({ searchQuery: query });
 			},
 			setSelectedCoin: (coinId: string | null) => {
 				set({
 					selectedCoin: coinId,
-					coinDetail: null,
+					CoinDetails: null,
 					chartData: null,
 				});
 			},
 
-			loadCoinDetail: async (coinId: string) => {
-				if (get().isLoadingCoinDetail) return;
-				set({ isLoadingCoinDetail: true });
+			loadCoinDetails: async (coinId: string) => {
+				if (get().isLoadingCoinDetails) return;
+				set({ isLoadingCoinDetails: true });
 				try {
-					const coinDetail = ENV_CONFIG.ENABLE_MOCK_API
-						? await fetchMockCoinDetail(coinId)
-						: await fetchCoinDetail(coinId);
-					set({ coinDetail, detailLastUpdated: Date.now() });
+					const CoinDetails = ENV_CONFIG.ENABLE_MOCK_API
+						? await fetchMockCoinDetails(coinId)
+						: await fetchCoinDetails(coinId);
+					set({ CoinDetails, detailLastUpdated: Date.now() });
 				} catch (error) {
 					console.error("Failed to load coin detail:", error);
 					toast.error("Failed to load coin details");
 				}
-				set({ isLoadingCoinDetail: false });
+				set({ isLoadingCoinDetails: false });
 			},
 
 			loadChartData: async (coinId: string, days: number = 30) => {
@@ -138,7 +138,6 @@ export const useStore = create<Store>()(
 			name: "crypto-tracker-storage",
 			storage: createJSONStorage(() => localStorage),
 			partialize: (state) => ({
-				favorites: state.favorites,
 				sortType: state.sortType,
 				sortOrder: state.sortOrder,
 			}),

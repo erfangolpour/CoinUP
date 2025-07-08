@@ -1,4 +1,4 @@
-import type { ChartData, Coin, CoinDetail } from "../types/crypto";
+import type { ChartData, Coin, CoinDetails } from "../types/coin";
 
 const POPULAR_COINS = [
 	"bitcoin",
@@ -211,7 +211,7 @@ const generateMockCoin = (id: string, rank: number): Coin => {
 	};
 };
 
-const generateMockCoinDetail = (coinId: string): CoinDetail => {
+const generateMockCoinDetails = (coinId: string): CoinDetails => {
 	const baseCoin = generateMockCoin(coinId, randomInt(1, 100));
 	const name = COIN_NAMES[coinId as keyof typeof COIN_NAMES] || coinId;
 
@@ -429,11 +429,11 @@ export const fetchMockCoins = async (
 	return coins;
 };
 
-export const fetchMockCoinDetail = async (
+export const fetchMockCoinDetails = async (
 	coinId: string,
-): Promise<CoinDetail> => {
+): Promise<CoinDetails> => {
 	await simulateDelay(randomInt(300, 1000));
-	return generateMockCoinDetail(coinId);
+	return generateMockCoinDetails(coinId);
 };
 
 export const fetchMockChartData = async (

@@ -31,13 +31,7 @@ export interface Coin {
 	last_updated: string;
 }
 
-export interface ChartData {
-	prices: [number, number][];
-	market_caps: [number, number][];
-	total_volumes: [number, number][];
-}
-
-export interface CoinDetail {
+export interface CoinDetails {
 	id: string;
 	symbol: string;
 	name: string;
@@ -117,6 +111,12 @@ export interface CoinDetail {
 	};
 }
 
+export interface ChartData {
+	prices: [number, number][];
+	market_caps: [number, number][];
+	total_volumes: [number, number][];
+}
+
 export type SortOption =
 	| "market_cap_desc"
 	| "market_cap_asc"
@@ -129,19 +129,3 @@ export type SortOption =
 
 export type SortType = "market_cap" | "volume" | "price" | "name";
 export type SortOrder = "asc" | "desc";
-
-export interface AppState {
-	coins: Coin[];
-	favorites: string[];
-	selectedCoin: string | null;
-	coinDetail: CoinDetail | null;
-	chartData: ChartData | null;
-	searchQuery: string;
-	sortType: SortType;
-	sortOrder: SortOrder;
-	isLoadingCoins: boolean;
-	isLoadingCoinDetail: boolean;
-	isLoadingChartData: boolean;
-	listLastUpdated: number;
-	detailLastUpdated: number;
-}

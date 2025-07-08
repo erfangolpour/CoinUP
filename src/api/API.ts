@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ENV_CONFIG } from "../config/env";
-import type { ChartData, Coin, CoinDetail } from "../types/crypto";
+import type { ChartData, Coin, CoinDetails } from "../types/coin";
 
 const API_KEY = ENV_CONFIG.COINGECKO_API_KEY;
 const BASE_URL = ENV_CONFIG.COINGECKO_BASE_URL;
@@ -76,7 +76,7 @@ export const fetchCoins = async (
 	}
 };
 
-export const fetchCoinDetail = async (coinId: string): Promise<CoinDetail> => {
+export const fetchCoinDetails = async (coinId: string): Promise<CoinDetails> => {
 	try {
 		const response = await api.get(`/coins/${coinId}`, {
 			params: {
