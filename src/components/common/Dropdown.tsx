@@ -49,7 +49,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
 				{isOpen && (
 					<motion.div
 						className={cn(
-							"glass-effect absolute top-full right-0 z-50 mt-2 w-40 rounded-lg py-2 bg-surface-800",
+							"glass-effect absolute top-full right-0 z-50 mt-2 w-40 rounded-lg py-2 !backdrop-blur-lg",
 							dropdownClassName,
 						)}
 						initial={{ opacity: 0, y: -10 }}
