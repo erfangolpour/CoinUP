@@ -26,7 +26,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 	}, [debouncedSearchQuery, setSearchQuery]);
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+		<div className="from-surface-900 via-surface-800 to-surface-900 min-h-screen bg-gradient-to-br">
 			{/* Header */}
 			<motion.header
 				className="glass-effect sticky top-0 z-50 backdrop-blur-md"
@@ -34,34 +34,34 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 				animate={{ y: 0 }}
 				transition={{ duration: 0.6, ease: "easeOut" }}
 			>
-				<div className="container mx-auto px-4 py-4 lg:px-0 lg:py-6">
+				<div className="py-lg container mx-auto px-4 lg:px-0">
 					<div className="flex items-center justify-between gap-10">
 						{/* Logo */}
 						<Clickable
-							className="flex items-center space-x-3"
+							className="space-x-sm flex items-center"
 							onClick={() => setSelectedCoin(null)}
 						>
-							<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 lg:h-10 lg:w-10">
-								<TrendingUp className="h-5 w-5 text-white lg:h-6 lg:w-6" />
+							<div className="from-primary-500 to-secondary-600 size-2xl flex items-center justify-center rounded-lg bg-gradient-to-br">
+								<TrendingUp className="size-md" />
 							</div>
-							<span className="text-xl font-bold text-white lg:text-2xl">
+							<span className="text-xl font-bold lg:text-2xl">
 								CoinUP
 							</span>
 						</Clickable>
 
 						{/* Search Bar */}
-						<div className="max-w-xl flex-1">
+						<div className="max-w-4xl flex-1">
 							<div className="relative">
-								<Search className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 transform text-slate-400" />
+								<Search className="text-content-tertiary absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 transform" />
 								<input
 									type="text"
-									placeholder="Search"
+									placeholder="Search cryptocurrencies..."
 									value={localSearchQuery}
 									onChange={(e) =>
 										setLocalSearchQuery(e.target.value)
 									}
 									onFocus={() => setSelectedCoin(null)}
-									className="w-full rounded-xl border border-slate-600 bg-slate-800/50 py-3 pr-4 pl-12 placeholder-slate-400 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none lg:py-4"
+									className="border-surface-600 bg-surface-800/50 placeholder-text-tertiary focus:border-primary-500 focus:ring-primary-500/20 w-full rounded-xl border py-3 pr-4 pl-12 text-ellipsis transition-all duration-200 focus:ring-2 focus:outline-none lg:py-4"
 								/>
 							</div>
 						</div>
@@ -70,7 +70,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 			</motion.header>
 
 			{/* Main Content */}
-			<main className="container mx-auto px-4 py-8 lg:px-0 lg:py-12">
+			<main className="py-2xl container mx-auto px-4 lg:px-0">
 				{children}
 			</main>
 		</div>

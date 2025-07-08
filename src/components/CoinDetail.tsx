@@ -88,38 +88,38 @@ export const CoinDetail: React.FC = () => {
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
 			transition={{ duration: 0.5, ease: "easeOut" }}
-			className="space-y-8 lg:space-y-12"
+			className="space-y-2xl"
 		>
 			{/* Header */}
 			<div className="flex items-center justify-between">
-				<div className="flex items-center space-x-4 lg:space-x-6">
+				<div className="space-x-lg flex items-center">
 					<Clickable
 						onClick={() => setSelectedCoin(null)}
-						className="glass-effect rounded-xl p-2 text-slate-300 hover:bg-slate-600/20 hover:text-white lg:p-3"
+						className="btn-ghost p-sm"
 					>
-						<ArrowLeft className="h-5 w-5 lg:h-6 lg:w-6" />
+						<ArrowLeft className="size-md" />
 					</Clickable>
 
-					<div className="flex items-center space-x-4 lg:space-x-6">
-						<div className="glass-effect flex h-16 w-16 items-center justify-center overflow-hidden rounded-full lg:h-20 lg:w-20">
+					<div className="space-x-lg flex items-center">
+						<div className="glass-effect size-5xl flex items-center justify-center overflow-hidden rounded-full">
 							<img
 								src={coinDetail.image?.large}
 								alt={coinDetail.name}
-								className="h-12 w-12 object-cover lg:h-16 lg:w-16"
+								className="size-4xl object-cover"
 							/>
 						</div>
 						<div>
 							<h1 className="text-2xl font-bold text-white lg:text-5xl">
 								{coinDetail.name}
 							</h1>
-							<p className="text-md text-slate-400 uppercase lg:text-xl">
+							<p className="text-base-responsive text-content-secondary uppercase">
 								{coinDetail.symbol}
 							</p>
 						</div>
 					</div>
 				</div>
 
-				<div className="flex items-center space-x-4">
+				<div className="space-x-md flex items-center">
 					{/* Update Info */}
 					<Timer
 						lastUpdated={detailLastUpdated}
@@ -131,11 +131,11 @@ export const CoinDetail: React.FC = () => {
 					<Clickable
 						onClick={handleRefresh}
 						disabled={isLoadingCoinDetail}
-						className="glass-effect hidden rounded-xl p-3 text-slate-300 hover:bg-slate-600/20 hover:text-white md:block lg:p-4"
+						className="btn-ghost p-md !hidden md:!inline-flex"
 					>
 						<RefreshCw
 							className={cn(
-								"h-6 w-6 lg:h-7 lg:w-7",
+								"size-lg",
 								isLoadingCoinDetail && "animate-spin",
 							)}
 						/>
@@ -144,15 +144,15 @@ export const CoinDetail: React.FC = () => {
 					<Clickable
 						onClick={() => toggleFavorite(selectedCoin)}
 						className={cn(
-							"rounded-xl p-3 hover:text-white lg:p-4",
+							"p-md rounded-xl",
 							isFavorite
-								? "bg-blue-600 shadow-lg shadow-blue-500/25"
-								: "glass-effect text-slate-400 hover:bg-slate-600/20",
+								? "bg-primary-600 shadow-primary-500/25 shadow-lg"
+								: "btn-ghost",
 						)}
 					>
 						<Star
 							className={cn(
-								"h-6 w-6 lg:h-7 lg:w-7",
+								"size-lg",
 								isFavorite && "fill-current",
 							)}
 						/>
@@ -161,22 +161,25 @@ export const CoinDetail: React.FC = () => {
 			</div>
 
 			{/* Price Section */}
-			<div className="glass-effect rounded-xl p-6 backdrop-blur-sm lg:p-8">
-				<div className="mb-6 flex items-start justify-between lg:mb-8">
-					<div>
-						<div className="mb-3 text-4xl font-bold lg:text-6xl">
+			<div className="glass-effect p-xl space-y-lg rounded-xl backdrop-blur-sm">
+				{/* Price Header */}
+				<div className="flex items-start justify-between">
+					<div className="space-y-sm">
+						<div className="text-4xl font-bold lg:text-6xl">
 							<AnimatedNumber value={currentPrice} prefix="$" />
 						</div>
 						<div
 							className={cn(
-								"flex items-center text-lg lg:text-xl",
-								isPositive ? "text-green-400" : "text-red-400",
+								"text-lg-responsive gap-xs flex items-center",
+								isPositive
+									? "text-content-positive"
+									: "text-content-negative",
 							)}
 						>
 							{isPositive ? (
-								<TrendingUp className="mr-2 h-5 w-5 lg:h-6 lg:w-6" />
+								<TrendingUp className="size-md" />
 							) : (
-								<TrendingDown className="mr-2 h-5 w-5 lg:h-6 lg:w-6" />
+								<TrendingDown className="size-md" />
 							)}
 							<AnimatedNumber
 								value={Math.abs(priceChange24h)}
@@ -188,7 +191,7 @@ export const CoinDetail: React.FC = () => {
 						</div>
 					</div>
 					<div className="text-right">
-						<div className="hidden text-sm text-slate-400 md:block lg:text-base">
+						<div className="text-content-secondary text-sm-responsive hidden md:block">
 							Market Cap Rank
 						</div>
 						<div className="text-2xl font-bold text-white lg:text-4xl">
@@ -198,45 +201,45 @@ export const CoinDetail: React.FC = () => {
 				</div>
 
 				{/* Quick Stats */}
-				<div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:gap-6">
-					<div className="glass-effect rounded-xl p-4 text-center lg:p-6">
-						<div className="mb-2 text-sm text-slate-400 lg:text-base">
+				<div className="gap-lg grid grid-cols-2 md:grid-cols-4">
+					<div className="glass-effect p-lg space-y-xs rounded-xl text-center">
+						<div className="text-content-secondary text-sm-responsive">
 							24h High
 						</div>
-						<div className="text-lg font-semibold lg:text-xl">
+						<div className="text-lg-responsive font-semibold">
 							<AnimatedNumber
 								value={coinDetail.market_data?.high_24h?.usd}
 								prefix="$"
 							/>
 						</div>
 					</div>
-					<div className="glass-effect rounded-xl p-4 text-center lg:p-6">
-						<div className="mb-2 text-sm text-slate-400 lg:text-base">
+					<div className="glass-effect p-lg space-y-xs rounded-xl text-center">
+						<div className="text-content-secondary text-sm-responsive">
 							24h Low
 						</div>
-						<div className="text-lg font-semibold lg:text-xl">
+						<div className="text-lg-responsive font-semibold">
 							<AnimatedNumber
 								value={coinDetail.market_data?.low_24h?.usd}
 								prefix="$"
 							/>
 						</div>
 					</div>
-					<div className="glass-effect rounded-xl p-4 text-center lg:p-6">
-						<div className="mb-2 text-sm text-slate-400 lg:text-base">
+					<div className="glass-effect p-lg space-y-xs rounded-xl text-center">
+						<div className="text-content-secondary text-sm-responsive">
 							Market Cap
 						</div>
-						<div className="text-lg font-semibold lg:text-xl">
+						<div className="text-lg-responsive font-semibold">
 							<AnimatedNumber
 								value={coinDetail.market_data?.market_cap?.usd}
 								prefix="$"
 							/>
 						</div>
 					</div>
-					<div className="glass-effect rounded-xl p-4 text-center lg:p-6">
-						<div className="mb-2 text-sm text-slate-400 lg:text-base">
+					<div className="glass-effect p-lg space-y-xs rounded-xl text-center">
+						<div className="text-content-secondary text-sm-responsive">
 							Volume
 						</div>
-						<div className="text-lg font-semibold lg:text-xl">
+						<div className="text-lg-responsive font-semibold">
 							<AnimatedNumber
 								value={
 									coinDetail.market_data?.total_volume?.usd
@@ -249,21 +252,22 @@ export const CoinDetail: React.FC = () => {
 			</div>
 
 			{/* Chart Section */}
-			<div className="glass-effect rounded-xl p-6 backdrop-blur-sm lg:p-8">
-				<div className="mb-6 flex flex-col items-center justify-between gap-4 md:flex-row lg:mb-8">
-					<h2 className="text-xl font-semibold text-white lg:text-2xl">
+			<div className="glass-effect p-xl space-y-xl rounded-xl backdrop-blur-sm">
+				{/* Chart Header */}
+				<div className="gap-md flex flex-col items-center justify-between md:flex-row">
+					<h2 className="text-xl-responsive font-semibold">
 						Price Chart
 					</h2>
-					<div className="flex space-x-2 lg:space-x-3">
+					<div className="space-x-sm flex">
 						{ENV_CONFIG.CHART_PERIODS.map((period) => (
 							<Clickable
 								key={period.value}
 								onClick={() => setChartPeriod(period.value)}
 								className={cn(
-									"rounded-lg px-3 py-1 text-sm transition-colors duration-200 hover:text-white lg:px-4 lg:py-2 lg:text-base",
+									"text-sm-responsive px-md py-xs rounded-lg",
 									chartPeriod === period.value
-										? "bg-blue-600 shadow-lg shadow-blue-500/25"
-										: "glass-effect text-slate-400 hover:bg-slate-600/20",
+										? "btn-primary"
+										: "btn-ghost",
 								)}
 								layout
 								disabled={isLoadingChartData}
@@ -293,16 +297,18 @@ export const CoinDetail: React.FC = () => {
 			</div>
 
 			{/* Detailed Stats */}
-			<div className="grid grid-cols-1 gap-6 lg:gap-8 xl:grid-cols-2">
+			<div className="gap-xl grid grid-cols-1 xl:grid-cols-2">
 				{/* Market Stats */}
-				<div className="glass-effect rounded-xl p-6 backdrop-blur-sm lg:p-8">
-					<h3 className="mb-4 flex items-center text-lg font-semibold lg:mb-6 lg:text-xl">
-						<BarChart3 className="mr-2 h-5 w-5 lg:h-6 lg:w-6" />
-						Market Statistics
+				<div className="glass-effect p-xl space-y-lg rounded-xl backdrop-blur-sm">
+					<h3 className="text-lg-responsive space-x-xs align-middle font-semibold">
+						<BarChart3 className="size-md inline" />
+						<span>Market Statistics</span>
 					</h3>
-					<div className="space-y-4 lg:space-y-6">
+					<div className="space-y-lg">
 						<div className="flex justify-between">
-							<span className="text-slate-400">Market Cap</span>
+							<span className="text-content-secondary">
+								Market Cap
+							</span>
 							<span>
 								<AnimatedNumber
 									value={
@@ -313,7 +319,7 @@ export const CoinDetail: React.FC = () => {
 							</span>
 						</div>
 						<div className="flex justify-between">
-							<span className="text-slate-400">
+							<span className="text-content-secondary">
 								Fully Diluted Valuation
 							</span>
 							<span>
@@ -327,7 +333,7 @@ export const CoinDetail: React.FC = () => {
 							</span>
 						</div>
 						<div className="flex justify-between">
-							<span className="text-slate-400">
+							<span className="text-content-secondary">
 								Circulating Supply
 							</span>
 							<span>
@@ -341,7 +347,9 @@ export const CoinDetail: React.FC = () => {
 							</span>
 						</div>
 						<div className="flex justify-between">
-							<span className="text-slate-400">Total Supply</span>
+							<span className="text-content-secondary">
+								Total Supply
+							</span>
 							<span>
 								<AnimatedNumber
 									value={coinDetail.market_data?.total_supply}
@@ -350,7 +358,9 @@ export const CoinDetail: React.FC = () => {
 							</span>
 						</div>
 						<div className="flex justify-between">
-							<span className="text-slate-400">Max Supply</span>
+							<span className="text-content-secondary">
+								Max Supply
+							</span>
 							<span>
 								<AnimatedNumber
 									value={coinDetail.market_data?.max_supply}
@@ -362,16 +372,16 @@ export const CoinDetail: React.FC = () => {
 				</div>
 
 				{/* Price History */}
-				<div className="glass-effect flex flex-col rounded-xl p-6 backdrop-blur-sm lg:p-8">
-					<h3 className="mb-4 flex items-center text-lg font-semibold lg:mb-6 lg:text-xl">
-						<Activity className="mr-2 h-5 w-5 lg:h-6 lg:w-6" />
-						Price History
+				<div className="glass-effect p-xl space-y-lg flex flex-col rounded-xl backdrop-blur-sm">
+					<h3 className="text-lg-responsive space-x-xs align-middle font-semibold">
+						<Activity className="size-md inline" />
+						<span>Price History</span>
 					</h3>
-					<div className="flex grow flex-col space-y-4 lg:space-y-6">
+					<div className="space-y-lg flex grow flex-col">
 						<div className="flex justify-between">
 							<div className="flex flex-col">
 								<span>All-Time High</span>
-								<span className="font-medium text-slate-400">
+								<span className="text-content-secondary font-medium">
 									{coinDetail.market_data?.ath_date?.usd
 										? formatDate(
 												coinDetail.market_data?.ath_date
@@ -389,20 +399,20 @@ export const CoinDetail: React.FC = () => {
 								</div>
 								<div
 									className={cn(
-										"flex items-center text-sm",
+										"text-sm-responsive space-x-xs align-middle",
 										(coinDetail.market_data
 											?.ath_change_percentage?.usd || 0) >
 											0
-											? "text-green-400"
-											: "text-red-400",
+											? "text-content-positive"
+											: "text-content-negative",
 									)}
 								>
 									{(coinDetail.market_data
 										?.ath_change_percentage?.usd || 0) >
 									0 ? (
-										<TrendingUp className="mr-1 h-4 w-4 lg:h-5 lg:w-5" />
+										<TrendingUp className="size-sm inline" />
 									) : (
-										<TrendingDown className="mr-1 h-4 w-4 lg:h-5 lg:w-5" />
+										<TrendingDown className="size-sm inline" />
 									)}
 									<AnimatedNumber
 										value={Math.abs(
@@ -420,7 +430,7 @@ export const CoinDetail: React.FC = () => {
 						<div className="flex justify-between">
 							<div className="flex flex-col">
 								<span>All-Time Low</span>
-								<span className="text-slate-400">
+								<span className="text-content-secondary">
 									{formatDate(
 										coinDetail.market_data?.atl_date?.usd ||
 											"",
@@ -436,20 +446,20 @@ export const CoinDetail: React.FC = () => {
 								</div>
 								<div
 									className={cn(
-										"flex items-center text-sm",
+										"text-sm-responsive space-x-xs align-middle",
 										(coinDetail.market_data
 											?.atl_change_percentage?.usd || 0) >
 											0
-											? "text-green-400"
-											: "text-red-400",
+											? "text-content-positive"
+											: "text-content-negative",
 									)}
 								>
 									{(coinDetail.market_data
 										?.atl_change_percentage?.usd || 0) >
 									0 ? (
-										<TrendingUp className="mr-1 h-4 w-4 lg:h-5 lg:w-5" />
+										<TrendingUp className="size-sm inline" />
 									) : (
-										<TrendingDown className="mr-1 h-4 w-4 lg:h-5 lg:w-5" />
+										<TrendingDown className="size-sm inline" />
 									)}
 									<AnimatedNumber
 										value={Math.abs(
@@ -465,7 +475,9 @@ export const CoinDetail: React.FC = () => {
 							</div>
 						</div>
 						<div className="flex grow items-end justify-between text-sm">
-							<span className="text-slate-400">Last Updated</span>
+							<span className="text-content-secondary">
+								Last Updated
+							</span>
 							<span>{formatDate(coinDetail.last_updated)}</span>
 						</div>
 					</div>
@@ -474,25 +486,25 @@ export const CoinDetail: React.FC = () => {
 
 			{/* ROI Section */}
 			{coinDetail.market_data?.roi && (
-				<div className="glass-effect rounded-xl p-6 backdrop-blur-sm lg:p-8">
-					<h3 className="mb-4 flex items-center text-lg font-semibold lg:mb-6 lg:text-xl">
-						<DollarSign className="mr-2 h-5 w-5 lg:h-6 lg:w-6" />
-						Return on Investment
+				<div className="glass-effect p-xl space-y-lg rounded-xl backdrop-blur-sm">
+					<h3 className="text-lg-responsive space-x-xs align-middle font-semibold">
+						<DollarSign className="size-md inline" />
+						<span>Return on Investment</span>
 					</h3>
-					<div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:gap-6">
-						<div className="glass-effect rounded-xl p-4 text-center lg:p-6">
-							<div className="text-2xl font-bold text-green-400 lg:text-3xl">
+					<div className="gap-lg grid grid-cols-1 md:grid-cols-3">
+						<div className="glass-effect p-lg rounded-xl text-center">
+							<div className="text-content-positive text-xl-responsive font-bold">
 								<AnimatedNumber
 									value={coinDetail.market_data?.roi?.times}
 									suffix="x"
 								/>
 							</div>
-							<div className="text-sm text-slate-400 lg:text-base">
+							<div className="text-content-secondary text-sm-responsive">
 								ROI Multiple
 							</div>
 						</div>
-						<div className="glass-effect rounded-xl p-4 text-center lg:p-6">
-							<div className="text-2xl font-bold text-green-400 lg:text-3xl">
+						<div className="glass-effect p-lg rounded-xl text-center">
+							<div className="text-content-positive text-2xl-responsive font-bold">
 								<AnimatedNumber
 									value={
 										coinDetail.market_data?.roi?.percentage
@@ -502,15 +514,15 @@ export const CoinDetail: React.FC = () => {
 									simplified={false}
 								/>
 							</div>
-							<div className="text-sm text-slate-400 lg:text-base">
+							<div className="text-content-secondary text-sm-responsive">
 								ROI Percentage
 							</div>
 						</div>
-						<div className="glass-effect rounded-xl p-4 text-center lg:p-6">
-							<div className="text-2xl font-bold text-white lg:text-3xl">
+						<div className="glass-effect p-lg rounded-xl text-center">
+							<div className="text-2xl-responsive font-bold">
 								{coinDetail.market_data?.roi?.currency?.toUpperCase()}
 							</div>
-							<div className="text-sm text-slate-400 lg:text-base">
+							<div className="text-content-secondary text-sm-responsive">
 								Base Currency
 							</div>
 						</div>

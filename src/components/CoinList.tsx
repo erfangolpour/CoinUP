@@ -56,14 +56,14 @@ export const CoinList: React.FC = () => {
 	];
 
 	return (
-		<div className="space-y-8 lg:space-y-12">
+		<div className="space-y-2xl">
 			{/* Header */}
-			<div className="flex flex-col items-center justify-between gap-6 lg:flex-row lg:gap-8">
-				<div className="w-full space-y-3">
-					<h1 className="text-3xl font-bold lg:text-4xl">
+			<div className="gap-xl flex flex-col items-center justify-between lg:flex-row">
+				<div className="space-y-sm w-full">
+					<h1 className="text-3xl-responsive font-bold">
 						Cryptocurrency Tracker
 					</h1>
-					<p className="text-lg text-slate-400">
+					<p className="text-content-secondary text-base-responsive">
 						{searchQuery
 							? `Showing ${filteredCoins.length} result
                 ${filteredCoins.length === 1 ? "" : "s"} for "${searchQuery}"`
@@ -71,7 +71,7 @@ export const CoinList: React.FC = () => {
 					</p>
 				</div>
 
-				<div className="flex w-full items-center justify-between space-x-4 lg:justify-end lg:space-x-6">
+				<div className="space-x-lg flex w-full items-center justify-between lg:justify-end">
 					{/* Last Updated */}
 					<Timer
 						lastUpdated={listLastUpdated}
@@ -79,16 +79,16 @@ export const CoinList: React.FC = () => {
 						className="text-left lg:text-right"
 					/>
 
-					<div className="flex gap-3">
+					<div className="gap-sm flex">
 						{/* Refresh Button */}
 						<Clickable
 							onClick={() => loadCoins()}
 							disabled={isLoadingCoins}
-							className="glass-effect rounded-xl p-3 text-slate-300 hover:bg-slate-600/20 hover:text-white lg:p-4"
+							className="btn-ghost p-md"
 						>
 							<RefreshCw
 								className={cn(
-									"h-4 w-4 lg:h-5 lg:w-5",
+									"size-sm",
 									isLoadingCoins && "animate-spin",
 								)}
 							/>
@@ -97,9 +97,9 @@ export const CoinList: React.FC = () => {
 						{/* Sort & Filter */}
 						<Clickable
 							onClick={() => setShowFilters(!showFilters)}
-							className="flex items-center space-x-2 rounded-xl bg-blue-600 px-4 py-2 shadow-lg shadow-blue-500/25 hover:bg-blue-700 lg:px-6 lg:py-3"
+							className="btn-primary px-lg py-sm gap-2"
 						>
-							<Filter className="h-4 w-4 lg:h-5 lg:w-5" />
+							<Filter className="size-sm" />
 							<span>Sort</span>
 						</Clickable>
 					</div>
@@ -114,9 +114,9 @@ export const CoinList: React.FC = () => {
 						animate={{ height: "auto", opacity: 1 }}
 						exit={{ height: 0, opacity: 0 }}
 					>
-						<div className="glass-effect flex flex-col justify-between gap-5 rounded-xl p-6 md:flex-row">
+						<div className="glass-effect gap-md p-md flex flex-col justify-between rounded-xl md:flex-row">
 							{/* Sort Type */}
-							<div className="flex flex-wrap gap-3 lg:gap-4">
+							<div className="gap-sm flex flex-wrap">
 								{sortTypeOptions.map((option) => (
 									<Clickable
 										key={option.value}
@@ -124,10 +124,10 @@ export const CoinList: React.FC = () => {
 											setSortType(option.value)
 										}
 										className={cn(
-											"rounded-xl px-4 py-2 text-sm font-medium lg:px-6 lg:py-3 lg:text-base",
+											"px-lg py-sm text-sm-responsive",
 											sortType === option.value
-												? "bg-blue-600 shadow-lg shadow-blue-500/25"
-												: "glass-effect text-slate-300 hover:bg-slate-600/20 hover:text-white",
+												? "btn-primary"
+												: "btn-ghost",
 										)}
 									>
 										{option.label}
@@ -136,17 +136,17 @@ export const CoinList: React.FC = () => {
 							</div>
 
 							{/* Sort Order */}
-							<div className="flex gap-3 lg:gap-4">
+							<div className="gap-sm flex [&>*]:grow">
 								<Clickable
 									onClick={() => setSortOrder("desc")}
 									className={cn(
-										"flex grow items-center space-x-2 rounded-xl px-4 py-2 text-xs font-medium lg:px-6 lg:py-3 lg:text-base",
+										"space-x-xs px-lg py-sm text-xs-responsive align-middle",
 										sortOrder === "desc"
-											? "bg-blue-600 shadow-lg shadow-blue-500/25"
-											: "glass-effect text-slate-300 hover:bg-slate-600/20 hover:text-white",
+											? "btn-primary"
+											: "btn-ghost",
 									)}
 								>
-									<ChevronDown className="h-4 w-4" />
+									<ChevronDown className="size-sm inline" />
 									<span>
 										{sortType === "name"
 											? "Z to A"
@@ -156,13 +156,13 @@ export const CoinList: React.FC = () => {
 								<Clickable
 									onClick={() => setSortOrder("asc")}
 									className={cn(
-										"flex grow items-center space-x-2 rounded-xl px-4 py-2 text-xs font-medium lg:px-6 lg:py-3 lg:text-base",
+										"space-x-xs px-lg py-sm text-xs-responsive align-middle",
 										sortOrder === "asc"
-											? "bg-blue-600 shadow-lg shadow-blue-500/25"
-											: "glass-effect text-slate-300 hover:bg-slate-600/20 hover:text-white",
+											? "btn-primary"
+											: "btn-ghost",
 									)}
 								>
-									<ChevronUp className="h-4 w-4" />
+									<ChevronUp className="size-sm inline" />
 									<span>
 										{sortType === "name"
 											? "A to Z"
@@ -176,7 +176,7 @@ export const CoinList: React.FC = () => {
 			</AnimatePresence>
 
 			{/* Coin Grid with Skeleton */}
-			<motion.div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+			<motion.div className="gap-md grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
 				<AnimatePresence mode="popLayout">
 					{isLoadingCoins && coins.length === 0
 						? // Loading Placeholder with shared layoutId
@@ -199,14 +199,16 @@ export const CoinList: React.FC = () => {
 				<motion.div
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
-					className="py-12 text-center"
+					className="py-2xl text-center"
 				>
-					<div className="mb-4 text-slate-400">
-						<ArrowUpDown className="mx-auto mb-4 h-16 w-16 opacity-50" />
-						<p className="text-lg">No cryptocurrencies found</p>
-						<p className="text-sm">
-							Try adjusting your search terms
-						</p>
+					<div className="text-content-tertiary space-y-md">
+						<ArrowUpDown className="mx-auto size-4xl" />
+						<div>
+							<p className="text-lg">No cryptocurrencies found</p>
+							<p className="text-sm">
+								Try adjusting your search terms
+							</p>
+						</div>
 					</div>
 				</motion.div>
 			)}

@@ -5,47 +5,45 @@ export const CoinCardSkeleton = () => (
 		initial={{ opacity: 0 }}
 		animate={{ opacity: 1 }}
 		exit={{ opacity: 0 }}
-		className="glass-effect relative animate-pulse rounded-xl border border-slate-700/50 p-6 lg:p-8"
+		className="glass-effect border-surface-700/50 space-y-lg p-6 relative animate-pulse rounded-xl border"
 	>
-		{/* Favorite Button Skeleton */}
-		<div className="absolute top-4 right-4 h-8 w-8 rounded-full bg-slate-700"></div>
-
-		{/* Header */}
-		<div className="mb-6 flex items-center space-x-4">
-			<div className="h-12 w-12 rounded-full bg-slate-700 lg:h-16 lg:w-16"></div>
-			<div className="flex-1">
-				<div className="mb-2 h-5 w-3/4 rounded bg-slate-700 lg:h-6"></div>
-				<div className="h-3 w-16 rounded bg-slate-700 lg:h-4"></div>
+		{/* Coin Header */}
+		<div className="flex items-start justify-between">
+			<div className="space-x-lg flex items-center">
+				<div className="glass-effect bg-surface-700 size-4xl rounded-full"></div>
+				<div className="flex-1 space-y-1">
+					<div className="bg-surface-700 h-6 w-24 rounded lg:h-7"></div>
+					<div className="bg-surface-700 h-4 w-12 rounded"></div>
+				</div>
 			</div>
+
+			{/* Favorite Button */}
+			<div className="glass-effect bg-surface-700 p-sm h-9 w-9 rounded-full"></div>
 		</div>
 
 		{/* Price */}
-		<div className="mb-6">
-			<div className="mb-2 h-8 w-1/2 rounded bg-slate-700 lg:h-10"></div>
-			<div className="h-4 w-1/3 rounded bg-slate-700"></div>
+		<div className="space-y-xs">
+			<div className="bg-surface-700 h-8 w-28 rounded lg:h-9"></div>
+			<div className="bg-surface-700 h-5 w-20 rounded"></div>
 		</div>
 
 		{/* Stats */}
-		<div className="grid grid-cols-2 gap-4">
-			<div>
-				<div className="mb-2 h-3 w-full rounded bg-slate-700"></div>
-				<div className="h-4 w-3/4 rounded bg-slate-700"></div>
+		<div className="gap-lg text-sm-responsive grid grid-cols-2">
+			<div className="space-y-xs">
+				<div className="bg-surface-700 h-4 w-20 rounded"></div>
+				<div className="bg-surface-700 h-5 w-16 rounded"></div>
 			</div>
-			<div>
-				<div className="mb-2 h-3 w-full rounded bg-slate-700"></div>
-				<div className="h-4 w-3/4 rounded bg-slate-700"></div>
+			<div className="space-y-xs">
+				<div className="bg-surface-700 h-4 w-18 rounded"></div>
+				<div className="bg-surface-700 h-5 w-16 rounded"></div>
 			</div>
-		</div>
-
-		{/* Volume and Market Cap */}
-		<div className="mt-4 grid grid-cols-2 gap-4">
-			<div>
-				<div className="mb-2 h-3 w-full rounded bg-slate-700"></div>
-				<div className="h-4 w-2/3 rounded bg-slate-700"></div>
+			<div className="space-y-xs">
+				<div className="bg-surface-700 h-4 w-14 rounded"></div>
+				<div className="bg-surface-700 h-5 w-16 rounded"></div>
 			</div>
-			<div>
-				<div className="mb-2 h-3 w-full rounded bg-slate-700"></div>
-				<div className="h-4 w-2/3 rounded bg-slate-700"></div>
+			<div className="space-y-xs">
+				<div className="bg-surface-700 h-4 w-14 rounded"></div>
+				<div className="bg-surface-700 h-5 w-16 rounded"></div>
 			</div>
 		</div>
 	</motion.div>

@@ -5,109 +5,109 @@ export const CoinDetailSkeleton = () => (
 		initial={{ opacity: 0 }}
 		animate={{ opacity: 1 }}
 		exit={{ opacity: 0 }}
-		className="space-y-8 lg:space-y-12"
+		className="space-y-2xl"
 	>
 		{/* Header Skeleton */}
 		<div className="flex items-center justify-between">
-			<div className="flex items-center space-x-4 lg:space-x-6">
-				<div className="glass-effect h-10 w-10 animate-pulse rounded-xl bg-slate-700 lg:h-12 lg:w-12"></div>
-				<div className="flex items-center space-x-4 lg:space-x-6">
-					<div className="glass-effect h-16 w-16 animate-pulse rounded-full bg-slate-700 lg:h-20 lg:w-20"></div>
-					<div>
-						<div className="mb-2 h-8 w-48 animate-pulse rounded bg-slate-700 lg:h-12 lg:w-64"></div>
-						<div className="h-6 w-16 animate-pulse rounded bg-slate-700 lg:h-8 lg:w-20"></div>
+			<div className="space-x-lg flex items-center">
+				<div className="bg-surface-700 size-6 animate-pulse rounded-full"></div>
+				<div className="space-x-lg flex items-center">
+					<div className="glass-effect bg-surface-700 size-5xl animate-pulse rounded-full"></div>
+					<div className="space-y-1">
+						<div className="bg-surface-700 w-32 h-8 animate-pulse rounded lg:h-12 lg:w-40"></div>
+						<div className="bg-surface-700 h-5 w-16 animate-pulse rounded lg:h-6 lg:w-20"></div>
 					</div>
 				</div>
 			</div>
-			<div className="flex items-center space-x-4">
-				<div className="glass-effect h-12 w-12 animate-pulse rounded-xl bg-slate-700 lg:h-16 lg:w-16"></div>
-				<div className="glass-effect h-12 w-12 animate-pulse rounded-xl bg-slate-700 lg:h-16 lg:w-16"></div>
+			<div className="space-x-md flex items-center">
+				<div className="bg-surface-700 size-4xl animate-pulse rounded-xl"></div>
+				<div className="bg-surface-700 size-4xl animate-pulse rounded-xl"></div>
 			</div>
 		</div>
 
 		{/* Price Section Skeleton */}
-		<div className="glass-effect rounded-xl p-6 backdrop-blur-sm lg:p-8">
-			<div className="mb-6 flex items-start justify-between lg:mb-8">
-				<div>
-					<div className="mb-3 h-12 w-48 animate-pulse rounded bg-slate-700 lg:h-16 lg:w-64"></div>
-					<div className="h-6 w-32 animate-pulse rounded bg-slate-700 lg:h-8 lg:w-40"></div>
+		<div className="glass-effect p-xl space-y-lg rounded-xl backdrop-blur-sm">
+			<div className="flex items-start justify-between">
+				<div className="space-y-sm">
+					<div className="bg-surface-700 h-12 w-32 animate-pulse rounded lg:h-16 lg:w-40"></div>
+					<div className="bg-surface-700 h-6 w-24 animate-pulse rounded lg:h-7 lg:w-28"></div>
 				</div>
 				<div className="text-right">
-					<div className="mb-2 h-4 w-24 animate-pulse rounded bg-slate-700 lg:h-5 lg:w-32"></div>
-					<div className="h-8 w-16 animate-pulse rounded bg-slate-700 lg:h-10 lg:w-20"></div>
+					<div className="bg-surface-700 h-5 w-28 animate-pulse rounded hidden md:block"></div>
+					<div className="bg-surface-700 h-8 w-16 animate-pulse rounded lg:h-10 lg:w-20"></div>
 				</div>
 			</div>
 
 			{/* Quick Stats Skeleton */}
-			<div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:gap-6">
+			<div className="gap-lg grid grid-cols-2 md:grid-cols-4">
 				{[...Array(4)].map((_, i) => (
 					<div
 						key={i}
-						className="glass-effect rounded-xl p-4 text-center lg:p-6"
+						className="glass-effect p-lg space-y-xs rounded-xl text-center"
 					>
-						<div className="mb-2 h-4 w-16 animate-pulse rounded bg-slate-700 lg:h-5 lg:w-20"></div>
-						<div className="h-6 w-20 animate-pulse rounded bg-slate-700 lg:h-7 lg:w-24"></div>
+						<div className="bg-surface-700 h-5 w-16 animate-pulse rounded"></div>
+						<div className="bg-surface-700 h-6 w-20 animate-pulse rounded"></div>
 					</div>
 				))}
 			</div>
 		</div>
 
 		{/* Chart Section Skeleton */}
-		<div className="glass-effect rounded-xl p-6 backdrop-blur-sm lg:p-8">
-			<div className="mb-6 flex flex-col items-center justify-between gap-4 md:flex-row lg:mb-8">
-				<div className="h-6 w-32 animate-pulse rounded bg-slate-700 lg:h-8 lg:w-40"></div>
-				<div className="flex space-x-2 lg:space-x-3">
+		<div className="glass-effect p-xl space-y-xl rounded-xl backdrop-blur-sm">
+			<div className="gap-md flex flex-col items-center justify-between md:flex-row">
+				<div className="bg-surface-700 h-6 w-24 animate-pulse rounded lg:h-7 lg:w-28"></div>
+				<div className="space-x-sm flex">
 					{[...Array(4)].map((_, i) => (
 						<div
 							key={i}
-							className="h-8 w-12 animate-pulse rounded-lg bg-slate-700 lg:h-10 lg:w-16"
+							className="bg-surface-700 h-8 w-12 animate-pulse rounded-lg lg:h-10 lg:w-16"
 						></div>
 					))}
 				</div>
 			</div>
-			<div className="h-64 animate-pulse rounded-xl bg-slate-700 lg:h-80"></div>
+			<div className="bg-surface-700 h-64 animate-pulse rounded-xl lg:h-80"></div>
 		</div>
 
 		{/* Detailed Stats Skeleton */}
-		<div className="grid grid-cols-1 gap-6 lg:gap-8 xl:grid-cols-2">
+		<div className="gap-xl grid grid-cols-1 xl:grid-cols-2">
 			{/* Market Stats Skeleton */}
-			<div className="glass-effect rounded-xl p-6 backdrop-blur-sm lg:p-8">
-				<div className="mb-4 flex items-center lg:mb-6">
-					<div className="mr-2 h-5 w-5 animate-pulse rounded bg-slate-700 lg:h-6 lg:w-6"></div>
-					<div className="h-6 w-40 animate-pulse rounded bg-slate-700 lg:h-7 lg:w-48"></div>
+			<div className="glass-effect p-xl space-y-lg rounded-xl backdrop-blur-sm">
+				<div className="flex items-center">
+					<div className="bg-surface-700 mr-2 h-5 w-5 animate-pulse rounded lg:h-6 lg:w-6"></div>
+					<div className="bg-surface-700 h-6 w-32 animate-pulse rounded lg:h-7 lg:w-40"></div>
 				</div>
-				<div className="space-y-4 lg:space-y-6">
+				<div className="space-y-lg">
 					{[...Array(5)].map((_, i) => (
 						<div key={i} className="flex justify-between">
-							<div className="h-5 w-32 animate-pulse rounded bg-slate-700"></div>
-							<div className="h-5 w-24 animate-pulse rounded bg-slate-700"></div>
+							<div className="bg-surface-700 h-5 w-28 animate-pulse rounded"></div>
+							<div className="bg-surface-700 h-5 w-20 animate-pulse rounded"></div>
 						</div>
 					))}
 				</div>
 			</div>
 
 			{/* Price History Skeleton */}
-			<div className="glass-effect flex flex-col rounded-xl p-6 backdrop-blur-sm lg:p-8">
-				<div className="mb-4 flex items-center lg:mb-6">
-					<div className="mr-2 h-5 w-5 animate-pulse rounded bg-slate-700 lg:h-6 lg:w-6"></div>
-					<div className="h-6 w-32 animate-pulse rounded bg-slate-700 lg:h-7 lg:w-40"></div>
+			<div className="glass-effect p-xl space-y-lg flex flex-col rounded-xl backdrop-blur-sm">
+				<div className="flex items-center">
+					<div className="bg-surface-700 mr-2 h-5 w-5 animate-pulse rounded lg:h-6 lg:w-6"></div>
+					<div className="bg-surface-700 h-6 w-24 animate-pulse rounded lg:h-7 lg:w-32"></div>
 				</div>
-				<div className="flex grow flex-col space-y-4 lg:space-y-6">
+				<div className="space-y-lg flex grow flex-col">
 					{[...Array(2)].map((_, i) => (
 						<div key={i} className="flex justify-between">
-							<div className="flex flex-col space-y-2">
-								<div className="h-5 w-28 animate-pulse rounded bg-slate-700"></div>
-								<div className="h-4 w-20 animate-pulse rounded bg-slate-700"></div>
+							<div className="flex flex-col">
+								<div className="bg-surface-700 h-5 w-24 animate-pulse rounded"></div>
+								<div className="bg-surface-700 h-4 w-20 animate-pulse rounded"></div>
 							</div>
 							<div className="text-right">
-								<div className="mb-2 h-5 w-20 animate-pulse rounded bg-slate-700"></div>
-								<div className="h-4 w-16 animate-pulse rounded bg-slate-700"></div>
+								<div className="bg-surface-700 h-5 w-20 animate-pulse rounded"></div>
+								<div className="bg-surface-700 h-4 w-16 animate-pulse rounded"></div>
 							</div>
 						</div>
 					))}
 					<div className="flex grow items-end justify-between">
-						<div className="h-4 w-24 animate-pulse rounded bg-slate-700"></div>
-						<div className="h-4 w-32 animate-pulse rounded bg-slate-700"></div>
+						<div className="bg-surface-700 h-4 w-20 animate-pulse rounded"></div>
+						<div className="bg-surface-700 h-4 w-28 animate-pulse rounded"></div>
 					</div>
 				</div>
 			</div>
