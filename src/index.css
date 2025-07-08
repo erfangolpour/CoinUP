@@ -31,11 +31,47 @@
 	--color-secondary-950: var(--color-purple-950);
 
 	--color-surface: var(--color-slate);
+}
+
+@theme {
+	--color-surface-50: var(--color-slate-950);
+	--color-surface-100: var(--color-slate-90);
+	--color-surface-200: var(--color-slate-800);
+	--color-surface-300: var(--color-slate-700);
+	--color-surface-400: var(--color-slate-600);
+	--color-surface-500: var(--color-slate-500);
+	--color-surface-600: var(--color-slate-400);
+	--color-surface-700: var(--color-slate-300);
+	--color-surface-800: var(--color-slate-200);
+	--color-surface-900: var(--color-slate-100);
+	--color-surface-950: var(--color-slate-50);
+
+	--color-content-primary: var(--color-slate-900);
+	--color-content-secondary: var(--color-slate-600);
+	--color-content-tertiary: var(--color-slate-500);
+
+	--color-content-positive: var(--color-green-600);
+	--color-content-info: var(--color-blue-600);
+	--color-content-warning: var(--color-yellow-600);
+	--color-content-danger: var(--color-orange-600);
+	--color-content-negative: var(--color-red-600);
+
+	--color-glass-light: rgba(255, 255, 255, 0.8);
+	--color-glass-medium: rgba(255, 255, 255, 0.9);
+
+	--color-danger: var(--color-rose-100);
+
+	--shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+	--shadow-glass-sm: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
+}
+
+/* Dark theme overrides */
+.dark {
 	--color-surface-50: var(--color-slate-50);
-	--color-surface-100: var(--color-slate-100);
-	--color-surface-200: var(--color-slate-200);
-	--color-surface-300: var(--color-slate-300);
-	--color-surface-400: var(--color-slate-400);
+	--color-surface-100: var(--color-slate-50);
+	--color-surface-200: var(--color-slate-100);
+	--color-surface-300: var(--color-slate-200);
+	--color-surface-400: var(--color-slate-300);
 	--color-surface-500: var(--color-slate-500);
 	--color-surface-600: var(--color-slate-600);
 	--color-surface-700: var(--color-slate-700);
@@ -46,16 +82,20 @@
 	--color-content-primary: var(--color-slate-100);
 	--color-content-secondary: var(--color-slate-400);
 	--color-content-tertiary: var(--color-slate-500);
+
 	--color-content-positive: var(--color-green-400);
+	--color-content-info: var(--color-blue-400);
+	--color-content-warning: var(--color-yellow-400);
+	--color-content-danger: var(--color-orange-400);
 	--color-content-negative: var(--color-red-400);
 
 	--color-glass-light: rgba(255, 255, 255, 0.05);
 	--color-glass-medium: rgba(255, 255, 255, 0.1);
-	--color-glass-dark: rgba(0, 0, 0, 0.05);
+
+	--color-danger: #3f3449;
 
 	--shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 	--shadow-glass-sm: 0 4px 16px 0 rgba(31, 38, 135, 0.25);
-	--shadow-glass-lg: 0 16px 64px 0 rgba(31, 38, 135, 0.05);
 }
 
 * {
@@ -87,6 +127,8 @@ body {
 
 /* Button styles */
 .btn-primary {
+	@apply cursor-pointer;
+	@apply text-slate-50;
 	@apply inline-flex items-center justify-center;
 	@apply rounded-xl font-medium;
 	@apply transition-colors duration-200;
@@ -98,6 +140,7 @@ body {
 }
 
 .btn-secondary {
+	@apply cursor-pointer;
 	@apply inline-flex items-center justify-center;
 	@apply rounded-xl font-medium;
 	@apply transition-colors duration-200;
@@ -109,6 +152,7 @@ body {
 }
 
 .btn-ghost {
+	@apply cursor-pointer;
 	@apply inline-flex items-center justify-center;
 	@apply rounded-xl font-medium;
 	@apply transition-colors duration-200;
