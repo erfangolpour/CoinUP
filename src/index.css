@@ -162,13 +162,6 @@ body {
 	@apply text-content-secondary hover:text-content-primary;
 }
 
-/* Custom webkit blur */
-/* This resolves https://github.com/tailwindlabs/tailwindcss/issues/13844 */
-.webkit-backdrop-filter {
-	-webkit-backdrop-filter: blur(20px);
-	backdrop-filter: blur(20px);
-}
-
 /* Padding utilities */
 .p-xs {
 	@apply p-1 lg:p-2;
