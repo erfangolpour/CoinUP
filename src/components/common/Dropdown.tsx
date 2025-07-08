@@ -49,8 +49,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
 				{isOpen && (
 					<motion.div
 						className={cn(
-							"glass-effect absolute top-full right-0 z-50 mt-2 w-40 rounded-lg py-2 !backdrop-blur-lg",
-							dropdownClassName,
+							"glass-effect absolute top-full right-0 z-50 mt-2 w-40 rounded-lg py-2 webkit-backdrop-filter",
+							dropdownClassName
 						)}
 						initial={{ opacity: 0, y: -10 }}
 						animate={{ opacity: 1, y: 0 }}
