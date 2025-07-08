@@ -23,7 +23,7 @@ const Clickable = ({
 	return (
 		<motion.div
 			className={cn(
-				"cursor-pointer transition-colors duration-100",
+				"cursor-pointer",
 				disabled && "cursor-not-allowed opacity-50",
 				className,
 			)}

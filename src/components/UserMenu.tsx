@@ -50,17 +50,15 @@ const UserMenu: React.FC = () => {
 			{/* User Avatar Button */}
 			<Clickable
 				onClick={() => setIsOpen(!isOpen)}
-				className="hover:bg-surface-700 p-xs flex items-center rounded-xl transition-colors"
+				className="btn-primary from-primary-500 to-secondary-600 p-sm flex items-center rounded-xl bg-gradient-to-br"
 			>
-				<div className="from-primary-500 to-secondary-600 size-2xl flex items-center justify-center rounded-full bg-gradient-to-br">
-					<User className="size-sm text-white" />
-				</div>
-				<div className="ml-3 hidden text-sm sm:block">
+				<User className="size-sm text-white" />
+				{/* <div className="ml-3 hidden text-sm sm:block">
 					<p className="text-content-primary font-medium">
 						{user.name}
 					</p>
 					<p className="text-content-tertiary">{user.email}</p>
-				</div>
+				</div> */}
 			</Clickable>
 
 			{/* Dropdown Menu */}
@@ -75,15 +73,15 @@ const UserMenu: React.FC = () => {
 					>
 						{/* User Info */}
 						<div className="border-surface-600 border-b p-4">
-							<div className="space-x-sm flex items-center">
-								<div className="size-2xl from-primary-500 to-secondary-600 flex items-center justify-center rounded-full bg-gradient-to-br">
+							<div className="space-x-md flex items-center">
+								<div className="size-3xl from-primary-500 to-secondary-600 flex items-center justify-center rounded-full bg-gradient-to-br">
 									<User className="size-sm" />
 								</div>
 								<div>
 									<p className="text-content-primary font-medium">
 										{user.name}
 									</p>
-									<p className="text-content-tertiary text-sm">
+									<p className="text-content-secondary text-sm">
 										{user.email}
 									</p>
 								</div>
@@ -107,7 +105,7 @@ const UserMenu: React.FC = () => {
 							{!showDeleteConfirm ? (
 								<Clickable
 									onClick={() => setShowDeleteConfirm(true)}
-									className="px-md py-xs flex w-full items-center space-x-3 text-red-400 transition-colors hover:bg-[#3f3449]"
+									className="px-md py-xs hover:bg-danger flex w-full items-center space-x-3 text-red-400 transition-colors"
 								>
 									<Trash2 className="size-sm" />
 									<span>Delete Account</span>

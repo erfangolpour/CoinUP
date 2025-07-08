@@ -22,10 +22,7 @@ const HighlightText = memo(
 			const parts = text.split(regex);
 			return parts.map((part, index) =>
 				part.toLowerCase() === query.toLowerCase() ? (
-					<span
-						key={index}
-						className="bg-primary-500/30 text-primary-200 rounded"
-					>
+					<span key={index} className="bg-primary-500/30 rounded">
 						{part}
 					</span>
 				) : (
@@ -79,7 +76,7 @@ export const CoinCard: React.FC<CoinCardProps> = memo(
 
 				{/* Coin Header */}
 				<div className="flex items-start justify-between">
-					<div className="flex items-center space-x-5">
+					<div className="flex items-center space-x-3">
 						<div className="glass-effect size-4xl flex items-center justify-center overflow-hidden rounded-full">
 							<img
 								src={coin.image}
@@ -109,10 +106,11 @@ export const CoinCard: React.FC<CoinCardProps> = memo(
 					{/* Favorite Button */}
 					<Clickable
 						className={cn(
-							"p-sm rounded-full hover:text-white",
+							"p-sm !hidden !rounded-full",
+							isAuthenticated && "!block",
 							isFavorite
-								? "bg-primary-600 shadow-primary-500/25 shadow-lg"
-								: "glass-effect text-content-secondary hover:bg-surface-600/20",
+								? "bg-primary-600 shadow-primary-500/25 text-slate-50 shadow-lg"
+								: "btn-ghost",
 						)}
 						onClick={(e) => {
 							e.stopPropagation();
@@ -138,7 +136,9 @@ export const CoinCard: React.FC<CoinCardProps> = memo(
 					<div
 						className={cn(
 							"text-sm-responsive space-x-xs align-middle",
-							isPositive ? "text-positive" : "text-negative",
+							isPositive
+								? "text-content-positive"
+								: "text-content-negative",
 						)}
 					>
 						{isPositive ? (

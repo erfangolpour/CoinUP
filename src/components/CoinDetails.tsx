@@ -112,7 +112,7 @@ export const CoinDetails: React.FC = () => {
 							/>
 						</div>
 						<div>
-							<h1 className="text-2xl font-bold text-white lg:text-5xl">
+							<h1 className="text-2xl font-bold text-content-primary lg:text-5xl">
 								{CoinDetails.name}
 							</h1>
 							<p className="text-base-responsive text-content-secondary uppercase">
@@ -157,7 +157,7 @@ export const CoinDetails: React.FC = () => {
 						className={cn(
 							"p-md rounded-xl",
 							isFavorite
-								? "bg-primary-600 shadow-primary-500/25 shadow-lg"
+								? "bg-primary-600 shadow-primary-500/25 shadow-lg text-slate-50"
 								: "btn-ghost",
 						)}
 					>

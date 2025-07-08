@@ -1,3 +1,4 @@
+import { cn } from "@/utils/cn";
 import Clickable from "@components/common/Clickable";
 import { useAuthStore } from "@stores/useAuthStore";
 import { Eye, EyeOff, Lock, Mail, User, X } from "lucide-react";
@@ -26,7 +27,8 @@ interface FormErrors {
 interface PasswordStrength {
 	score: number;
 	message: string;
-	color: string;
+	textColor: string;
+	bgColor: string;
 }
 
 const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
@@ -44,29 +46,52 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
 
 	// Calculate password strength
 	const calculatePasswordStrength = (password: string): PasswordStrength => {
-		if (!password) return { score: 0, message: "", color: "" };
+		if (!password)
+			return { score: 0, message: "", textColor: "", bgColor: "" };
 
-		let score = 0;
-		const checks = [
+		const score = [
 			password.length >= 8,
 			/[a-z]/.test(password),
 			/[A-Z]/.test(password),
 			/[0-9]/.test(password),
 			/[^a-zA-Z0-9]/.test(password),
-		];
-
-		score = checks.filter(Boolean).length;
+		].filter(Boolean).length;
 
 		if (score < 2) {
-			return { score, message: "Very Weak", color: "bg-red-500" };
+			return {
+				score,
+				message: "Very Weak",
+				textColor: "text-content-negative",
+				bgColor: "bg-red-500",
+			};
 		} else if (score < 3) {
-			return { score, message: "Weak", color: "bg-orange-500" };
+			return {
+				score,
+				message: "Weak",
+				textColor: "text-content-danger",
+				bgColor: "bg-orange-500",
+			};
 		} else if (score < 4) {
-			return { score, message: "Fair", color: "bg-yellow-500" };
+			return {
+				score,
+				message: "Fair",
+				textColor: "text-content-warning",
+				bgColor: "bg-yellow-500",
+			};
 		} else if (score < 5) {
-			return { score, message: "Good", color: "bg-blue-500" };
+			return {
+				score,
+				message: "Good",
+				textColor: "text-content-info",
+				bgColor: "bg-blue-500",
+			};
 		} else {
-			return { score, message: "Strong", color: "bg-green-500" };
+			return {
+				score,
+				message: "Strong",
+				textColor: "text-content-positive",
+				bgColor: "bg-green-500",
+			};
 		}
 	};
 
@@ -229,11 +254,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
 											e.target.value,
 										)
 									}
-									className={`bg-surface-800/50 w-full rounded-xl border py-3 pr-4 pl-10 transition-all focus:ring-2 focus:outline-none ${
+									className={cn(
+										"bg-surface-800/50 w-full rounded-xl border py-3 pr-4 pl-10 transition-all focus:ring-2 focus:outline-none",
 										errors.name
 											? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
-											: "border-surface-600 focus:border-primary-500 focus:ring-primary-500/20"
-									}`}
+											: "border-surface-600 focus:border-primary-500 focus:ring-primary-500/20",
+									)}
 									placeholder="Enter your name"
 								/>
 							</div>
@@ -258,11 +284,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
 								onChange={(e) =>
 									handleInputChange("email", e.target.value)
 								}
-								className={`bg-surface-800/50 w-full rounded-xl border py-3 pr-4 pl-10 transition-all focus:ring-2 focus:outline-none ${
+								className={cn(
+									"bg-surface-800/50 w-full rounded-xl border py-3 pr-4 pl-10 transition-all focus:ring-2 focus:outline-none",
 									errors.email
 										? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
-										: "border-surface-600 focus:border-primary-500 focus:ring-primary-500/20"
-								}`}
+										: "border-surface-600 focus:border-primary-500 focus:ring-primary-500/20",
+								)}
 								placeholder="Enter your email"
 							/>
 						</div>
@@ -289,11 +316,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
 										e.target.value,
 									)
 								}
-								className={`bg-surface-800/50 w-full rounded-xl border py-3 pr-12 pl-10 transition-all focus:ring-2 focus:outline-none ${
+								className={cn(
+									"bg-surface-800/50 w-full rounded-xl border py-3 pr-12 pl-10 transition-all focus:ring-2 focus:outline-none",
 									errors.password
 										? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
-										: "border-surface-600 focus:border-primary-500 focus:ring-primary-500/20"
-								}`}
+										: "border-surface-600 focus:border-primary-500 focus:ring-primary-500/20",
+								)}
 								placeholder="Enter your password"
 							/>
 							<Clickable
@@ -321,16 +349,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
 										Password strength:
 									</span>
 									<span
-										className={`font-medium ${
-											passwordStrength.score >= 4
-												? "text-green-400"
-												: passwordStrength.score >= 3
-													? "text-blue-400"
-													: passwordStrength.score >=
-														  2
-														? "text-yellow-400"
-														: "text-red-400"
-										}`}
+										className={cn(
+											"font-medium",
+											passwordStrength.textColor,
+										)}
 									>
 										{passwordStrength.message}
 									</span>
@@ -339,11 +361,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
 									{[...Array(5)].map((_, i) => (
 										<motion.div
 											key={i}
-											className={`h-2 flex-1 rounded-full ${
+											className={cn(
+												"h-2 flex-1 rounded-full",
 												i < passwordStrength.score
-													? passwordStrength.color
-													: "bg-surface-600"
-											}`}
+													? passwordStrength.bgColor
+													: "bg-surface-600",
+											)}
 											initial={{ scaleX: 0 }}
 											animate={{ scaleX: 1 }}
 											transition={{
@@ -377,11 +400,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
 											e.target.value,
 										)
 									}
-									className={`bg-surface-800/50 w-full rounded-xl border py-3 pr-12 pl-10 transition-all focus:ring-2 focus:outline-none ${
+									className={cn(
+										"bg-surface-800/50 w-full rounded-xl border py-3 pr-12 pl-10 transition-all focus:ring-2 focus:outline-none",
 										errors.confirmPassword
 											? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
-											: "border-surface-600 focus:border-primary-500 focus:ring-primary-500/20"
-									}`}
+											: "border-surface-600 focus:border-primary-500 focus:ring-primary-500/20",
+									)}
 									placeholder="Confirm your password"
 								/>
 								<Clickable

@@ -26,7 +26,7 @@ const Timer = memo(
 			const seconds = Math.floor(diff / 1000);
 			const minutes = Math.floor(seconds / 60);
 
-			if (minutes === 0) return "Just now";
+			if (minutes <= 0) return "Just now";
 			if (minutes === 1) return "1 minute ago";
 			if (minutes < 60) return `${minutes} minutes ago`;
 
