@@ -42,7 +42,7 @@ export const CoinList: React.FC = () => {
 		}
 	}, []);
 
-	// Auto-refresh every 30 seconds
+	// Auto-refresh
 	useEffect(() => {
 		const interval = setInterval(() => {
 			loadCoins();
